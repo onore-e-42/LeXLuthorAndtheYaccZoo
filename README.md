@@ -1,4 +1,4 @@
 LeXLuthorAndtheYaccZoo
 ======================
 
-il fantastico zoo degli yacc fortemente volto da Lex Luthor in persona
+il fantastico zoo degli yacc fortemente voluto da Lex Luthor in persona
