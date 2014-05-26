@@ -1,53 +1,176 @@
-%token STRING
-%token TEXT
+book 		: BOOK_OPEN book_att END_TAG
+		| BOOK_OPEN book_att CLOSE_TAG book_cnt BOOK_CLOSE
+		;
 
-%type book
-%type book_att
-%type book_cnt
+book_att	: ATT_EDITION STRING
+		|
+		;
 
-%type dedication
-%type dedication_cnt
+book_cnt	: dedication preface part authornotes
+		;
 
-%type preface
-%type preface_cnt
+dedication	: DEDICATION_OPEN END_TAG
+		| DEDICATION_OPEN CLOSE_TAG dedication_cnt DEDICATION_CLOSE
+		|
+		;
 
-%type part
-%type part_att
-%type part_cnt
+dedication_cnt	: TEXT
+		|
+		;
 
-%type toc
-%type toc_cnt
+preface		: PREFACE_OPEN END_TAG
+		| PREFACE_OPEN CLOSE_TAG preface_cnt PREFACE_CLOSE
+		;
 
-%type lof
-%type lof_cnt
+preface_cnt	: TEXT
+		|
+		;
 
-%type lot
-%type lot_cnt
+part		: PART_OPEN part_att END_TAG
+		| PART_OPEN CLOSE_TAG part_cnt PART_CLOSE
+		| part part
+		;
 
-%type item
-%type item_att
-%type item_cnt
+part_att	: ATT_ID STRING
+		| ATT_TITLE STRING
+		|
+		;
 
-%type chaper
-%type chapter_att
-%type chapter_cnt
+part_cnt	: toc chapter lof lot
+		;
 
-%type figure
-%type figure_att
-%type figure_cnt
 
-%type table
-%type table_att
-%type table_cnt
+toc		: TOC_OPEN END_TAG
+		| TOC_OPEN CLOSE_TAG toc_cnt TOC_CLOSE
+		;
 
-%type row
-%type row_cnt
+toc_cnt		: item
+		;
 
-%type cell
-%type cell_cnt
+lof		: LOF_OPEN END_TAG
+		| LOF_OPEN CLOSE_TAG lof_cnt LOF_CLOSE
+		;
 
-%type authornotes
-%type authornotes_cnt
+lof_cnt		: item
+		;
 
-%type note
-%type note_cnt
+lot		: LOT_OPEN END_TAG
+		| LOT_OPEN CLOSE_TAG lot_cnt LOT_CLOSE
+
+lot_cnt		: item
+		;
+
+item		: ITEM_OPEN item_att END_TAG
+		| ITEM_OPEN item_att CLOSE_tag item_cnt ITEM_CLOSE
+		| item item
+		;
+
+item_att	: ATT_ID STRING
+		|
+		;
+
+item_cnt	: TEXT
+		|
+		;
+
+chapter		: CHAPTER_OPEN chapter_att END_TAG
+		| CHAPTER_OPEN chapter_att CLOSE_TAG chapter_cnt CHAPTER_CLOSE
+		| chapter chapter
+		;
+		
+chapter_att	: ATT_ID STRING
+		| ATT_TITLE STRING
+		|
+		;
+
+chapter_cnt	: section
+		;
+
+section		: SECTION_OPEN section_att END_TAG
+		| SECTION_OPEN section_att CLOSE_TAG section_cnt SECTION_CLOSE
+		| section section
+		;
+
+section_att	: ATT_ID
+		| ATT_TITLE
+		|
+		;
+
+section_cnt	: TEXT
+		| section
+		| figure
+		| table
+		|
+		;
+
+figure		: FIGURE_OPEN figure_att END_TAG
+		| FIGURE_OPEN figure_att CLOSE_TAG figure_cnt FIGURE_CLOSE
+		;
+
+figure_att	: ATT_ID STRING
+		| ATT_CAPTION STRING
+		| ATT_PATH STRING
+		|
+		;
+
+figure_cnt	;
+
+table		: TABLE_OPEN table_att END_TAG
+		| TABLE_OPEN table_att CLOSE_TAG table_cnt TABLE_CLOSE
+		;
+
+table_att	: ATT_ID STRING
+		| ATT_CAPTION STRING
+		|
+		;
+
+table_cnt	: row
+		;
+
+row		: ROW_OPEN END_TAG
+		| ROW_OPEN CLOSE_TAG row_cnt ROW_CLOSE
+		| row row
+		;
+
+row_cnt		: cell
+		;
+
+cell		: CELL_OPEN END_TAG
+		| CELL_OPEN CLOSE_TAG cell_cnt CELL_CLOSE
+		| cell cell
+		;
+
+cell_cnt	: TEXT
+		|
+		;
+
+authornotes	: AUTHORNOTES_OPEN END_TAG
+		| AUTHORNOTES_OPEN CLOSE_TAG authornotes_cnt AUTHORNOTES_CLOSE
+		|
+		;
+
+authornotes_cnt : note
+		;
+
+note		: NOTE_OPEN END_TAG
+		| NOTE_OPEN CLOSE_TAG note_cnt NOTE_CLOSE
+		| note note
+		;
+
+note_cnt	: TEXT
+		|
+		;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
