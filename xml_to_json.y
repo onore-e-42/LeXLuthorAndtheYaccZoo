@@ -1,3 +1,15 @@
+%{
+  import java.io.*;
+%}
+      
+%token NL          /* newline , in realtà questo non so se serve */
+
+%token<sval> ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES_CLOSE AUTHORNOTES_OPEN BOOK_CLOSE BOOK_OPEN CELL_CLOSE CELL_OPEN CHAPTER_CLOSE CHAPTER_OPEN CLOSE_TAG DEDICATION_CLOSE DEDICATION_OPEN END_TAG FIGURE_CLOSE FIGURE_OPEN ITEM_CLOSE ITEM_OPEN LOF_CLOSE LOF_OPEN LOT_CLOSE LOT_OPEN NOTE_CLOSE NOTE_OPEN PART_CLOSE PART_OPEN PREFACE_CLOSE PREFACE_OPEN ROW_CLOSE ROW_OPEN SECTION_CLOSE SECTION_OPEN STRING TABLE_CLOSE TABLE_OPEN TEXT TOC_CLOSE TOC_OPEN
+
+%type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att figure_cnt table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt
+     
+%%
+
 book 		: BOOK_OPEN book_att END_TAG
 		| BOOK_OPEN book_att CLOSE_TAG book_cnt BOOK_CLOSE
 		;
@@ -160,6 +172,45 @@ note		: NOTE_OPEN END_TAG
 note_cnt	: TEXT
 		|
 		;
+
+%% /*roba uguale a quella dell'es4, dovrebbero essere chiamate standard quindi posso asserire con certezza 80% che sia giusto così */
+
+  private Yylex lexer;
+
+
+  private int yylex () {
+    int yyl_return = -1;
+    try {
+      yylval = new ParserVal(0);
+      yyl_return = lexer.yylex();
+    }
+    catch (IOException e) {
+      System.err.println("IO error :"+e);
+    }
+    return yyl_return;
+  }
+
+
+  public void yyerror (String error) {
+    System.err.println ("Error: " + error);
+  }
+
+
+  public Parser(Reader r) {
+    lexer = new Yylex(r, this);
+  }
+
+  public static void main(String args[]) throws IOException {
+    Parser yyparser;
+    if ( args.length > 0 ) {
+      // parse a file
+      yyparser = new Parser(new FileReader(args[0]));
+      yyparser.yyparse();
+    }
+    else {
+      System.out.println("ERROR: Provide an input file as Parser argument");
+    }
+  }
 
 
 
