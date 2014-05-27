@@ -4,7 +4,7 @@
       
 %token NL          /* newline , in realtà questo non so se serve */
 
-%token<sval> ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES_CLOSE AUTHORNOTES_OPEN BOOK_CLOSE BOOK_OPEN CELL_CLOSE CELL_OPEN CHAPTER_CLOSE CHAPTER_OPEN CLOSE_TAG DEDICATION_CLOSE DEDICATION_OPEN END_TAG FIGURE_CLOSE FIGURE_OPEN ITEM_CLOSE ITEM_OPEN LOF_CLOSE LOF_OPEN LOT_CLOSE LOT_OPEN NOTE_CLOSE NOTE_OPEN PART_CLOSE PART_OPEN PREFACE_CLOSE PREFACE_OPEN ROW_CLOSE ROW_OPEN SECTION_CLOSE SECTION_OPEN STRING TABLE_CLOSE TABLE_OPEN TEXT TOC_CLOSE TOC_OPEN
+%token<sval> ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES_CLOSE AUTHORNOTES_OPEN BOOK_CLOSE BOOK_OPEN CELL_CLOSE CELL_OPEN CHAPTER_CLOSE CHAPTER_OPEN CLOSE_TAG DEDICATION_CLOSE DEDICATION_OPEN END_TAG FIGURE_CLOSE FIGURE_OPEN ITEM_CLOSE ITEM_OPEN LOF_CLOSE LOF_OPEN LOT_CLOSE LOT_OPEN NOTE_CLOSE NOTE_OPEN PART_CLOSE PART_OPEN PREFACE_CLOSE PREFACE_OPEN ROW_CLOSE ROW_OPEN SECTION_CLOSE SECTION_OPEN STRING TABLE_CLOSE TABLE_OPEN TEXT TOC_CLOSE TOC_OPEN ATT_CAPTION ATT_PATH KEYWORD
 
 %type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att figure_cnt table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt
      
@@ -73,7 +73,7 @@ lot_cnt		: item
 		;
 
 item		: ITEM_OPEN item_att END_TAG
-		| ITEM_OPEN item_att CLOSE_tag item_cnt ITEM_CLOSE
+		| ITEM_OPEN item_att CLOSE_TAG item_cnt ITEM_CLOSE
 		| item item
 		;
 
@@ -125,7 +125,7 @@ figure_att	: ATT_ID STRING
 		|
 		;
 
-figure_cnt	;
+figure_cnt	:;
 
 table		: TABLE_OPEN table_att END_TAG
 		| TABLE_OPEN table_att CLOSE_TAG table_cnt TABLE_CLOSE
@@ -173,9 +173,10 @@ note_cnt	: TEXT
 		|
 		;
 
-%% /*roba uguale a quella dell'es4, dovrebbero essere chiamate standard quindi posso asserire con certezza 80% che sia giusto così */
+%%
+ 
 
-  private Yylex lexer;
+ private Yylex lexer;
 
 
   private int yylex () {
@@ -192,7 +193,7 @@ note_cnt	: TEXT
 
 
   public void yyerror (String error) {
-    System.err.println ("Error: " + error);
+    System.err.println ("Error: line %d: %s\n" + error + yychar);
   }
 
 

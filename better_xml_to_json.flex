@@ -11,54 +11,70 @@
 	this.yyparser = yyparser;
 	}
 
-	public String open(String keyword) {
-		keyword = keyword.toUpperCase;
-		return keyword.append(_OPEN);
-	}
-
-	public String close(String keyword) {
-		keyword = keyword.toUpperCase;
-		return keyword.append(_CLOSE);
-	}
 %}
 
-%x IN_TAG
+%x IN_TAG IN_MARKUP
 
-NL = \r\n|\r|\n
+NL 		= \r\n|\r|\n
 
 STRING		= ("'"[a-zA-Z0-9\-_]*"'" | '"'[a-zA-Z0-9\-_]*'"')
-TEXT		= [a-zA-Z0-9\-_]*
+TEXT		= ([a-zA-Z0-9\-_]*)
 
-START_TAG	= "<"
-END_TAG		= ">"
-CLOSE_TAG	= "/>"
-OPEN_CLOSE	= "</"
+START_TAG	= ("<")
+END_TAG		= (">")
+CLOSE_TAG	= ("/>")
+OPEN_CLOSE	= ("</")
 KEYWORD		= ("book" | "dedication" | "preface" | "part" | "toc" | "lof" | "lot" | "item" | "chapter" | "section" | "figure" | "table" | "row" | "cell" | "authornotes" | "note")
+
+ATT_EDITION	= ("edition =")
+ATT_ID		= ("id =")
+ATT_TITLE	= ("title =")
+ATT_CAPTION	= ("caption =")
+ATT_PATH	= ("path = ")
 
 %%
 
-<IN_TAG, YYINITIAL>{NL}		{return Parser.NL;}
+<IN_TAG, IN_MARKUP, YYINITIAL>{
+		{NL}		{return Parser.NL;}
+			}
 
-{START_TAG}{KEYWORD}		{yybegin(IN_TAG)
-				 return open(Parser.KEYWORD);}
+{START_TAG}{KEYWORD}		{yyparser.yylval = new ParserVal(yytext());
+				 yybegin(IN_TAG);
+				 return Parser.KEYWORD;}
 
-{OPEN_CLOSE}{KEYWORD}{END_TAG}	{return close(Parser.KEYWORD);}
 
-{TEXT}				{return TEXT;}
 
 
 <IN_TAG>{
-		END_TAG		{yybegin(YYINITIAL)
+		{END_TAG}	{yyparser.yylval = new ParserVal(yytext());
+				 yybegin(IN_MARKUP);
 				 return Parser.END_TAG;}
-		CLOSE_TAG	{yybegin(YYINITIAL)
+		{CLOSE_TAG}	{yyparser.yylval = new ParserVal(yytext());
+				 yybegin(YYINITIAL);
 				 return Parser.CLOSE_TAG;}
 	
-		"edition ="	{return ATT_EDITION;}
-		"id ="		{return ATT_ID;}
-		"title ="	{return ATT_TITLE;}
-		"caption ="	{return ATT_CAPTION;}
-		"path ="	{return ATT_PATH;}
+		{ATT_EDITION}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.ATT_EDITION;}
+		{ATT_ID}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.ATT_ID;}
+		{ATT_TITLE}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.ATT_TITLE;}
+		{ATT_CAPTION}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.ATT_CAPTION;}
+		{ATT_PATH}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.ATT_PATH;}
 
-		{STRING}	{return STRING;}	
+		{STRING}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.STRING;}	
+
 	}		
+
+<IN_MARKUP>{
 		
+		{OPEN_CLOSE}{KEYWORD}{END_TAG}	{yyparser.yylval = new ParserVal(yytext());
+						 yybegin(YYINITIAL);
+						 return Parser.KEYWORD;}
+
+		{TEXT}				{yyparser.yylval = new ParserVal(yytext());
+						 return Parser.TEXT;}
+   } 
