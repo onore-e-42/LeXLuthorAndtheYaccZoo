@@ -46,23 +46,16 @@ ATT_PATH	= ("path = ")
 
 
 <IN_TAG>{
-		{END_TAG}	{yyparser.yylval = new ParserVal(yytext());
-				 yybegin(IN_MARKUP);
+		{END_TAG}	{yybegin(IN_MARKUP);
 				 return Parser.END_TAG;}
-		{CLOSE_TAG}	{yyparser.yylval = new ParserVal(yytext());
-				 yybegin(YYINITIAL);
+		{CLOSE_TAG}	{yybegin(YYINITIAL);
 				 return Parser.CLOSE_TAG;}
 	
-		{ATT_EDITION}	{yyparser.yylval = new ParserVal(yytext());
-				 return Parser.ATT_EDITION;}
-		{ATT_ID}	{yyparser.yylval = new ParserVal(yytext());
-				 return Parser.ATT_ID;}
-		{ATT_TITLE}	{yyparser.yylval = new ParserVal(yytext());
-				 return Parser.ATT_TITLE;}
-		{ATT_CAPTION}	{yyparser.yylval = new ParserVal(yytext());
-				 return Parser.ATT_CAPTION;}
-		{ATT_PATH}	{yyparser.yylval = new ParserVal(yytext());
-				 return Parser.ATT_PATH;}
+		{ATT_EDITION}	{return Parser.ATT_EDITION;}
+		{ATT_ID}	{return Parser.ATT_ID;}
+		{ATT_TITLE}	{return Parser.ATT_TITLE;}
+		{ATT_CAPTION}	{return Parser.ATT_CAPTION;}
+		{ATT_PATH}	{return Parser.ATT_PATH;}
 
 		{STRING}	{yyparser.yylval = new ParserVal(yytext());
 				 return Parser.STRING;}	
