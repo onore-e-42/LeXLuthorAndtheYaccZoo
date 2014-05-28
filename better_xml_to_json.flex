@@ -21,8 +21,8 @@ STRING		= ("'"[a-zA-Z0-9\-_]*"'" | '"'[a-zA-Z0-9\-_]*'"')
 TEXT		= ([a-zA-Z0-9\-_]*)
 
 START_TAG	= ("<")
-END_TAG		= (">")
-CLOSE_TAG	= ("/>")
+CLOSE_TAG	= (">")
+END_TAG		= ("/>")
 OPEN_CLOSE	= ("</")
 KEYWORD		= ("book" | "dedication" | "preface" | "part" | "toc" | "lof" | "lot" | "item" | "chapter" | "section" | "figure" | "table" | "row" | "cell" | "authornotes" | "note")
 

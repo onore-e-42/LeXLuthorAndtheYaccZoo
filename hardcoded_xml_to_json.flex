@@ -21,8 +21,8 @@ STRING		= "'" TEXT* "'" | '"' TEXT* '"'
 TEXT		= (any legal XML character)
 
 START_TAG	= "<"
-END_TAG		= ">"
-CLOSE_TAG	= "/>"
+END_TAG		= "/>"
+CLOSE_TAG	= ">"
 
 %%
 
