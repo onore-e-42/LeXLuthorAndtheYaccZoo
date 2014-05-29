@@ -2,9 +2,9 @@
   import java.io.*;
 %}
       
-%token NL          /* newline , in realtà questo non so se serve */
+%token NL ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES BOOK CELL CHAPTER DEDICATION END_TAG FIGURE ITEM LOF LOT NOTE PART PREFACE ROW SECTION  TABLE TOC ATT_CAPTION ATT_PATH           /* newline , in realtà questo non so se serve */
 
-%token<sval> ATT_EDITION ATT_ID ATT_TITLE  AUTHORNOTES   AUTHORNOTES  BOOK   BOOK  CELL   CELL  CHAPTER   CHAPTER   DEDICATION   DEDICATION END_TAG  FIGURE   FIGURE  ITEM   ITEM  LOF   LOF  LOT   LOT  NOTE   NOTE  PART   PART  PREFACE   PREFACE  ROW   ROW  SECTION   SECTION STRING  TABLE   TABLE TEXT  TOC   TOC ATT_CAPTION ATT_PATH  
+%token<sval> TEXT STRING
 
 %type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att figure_cnt table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt 
      
@@ -104,7 +104,7 @@ section		: START_TAG SECTION section_att END_TAG {$$ = "{\"tag\":\"section\"" + 
 			;
 
 section_att	: ATT_ID STRING {$$ = "\"@id\":\"" + $2 + "\",";}
-		| ATT_ID STRING ATT_TITLE STRNIG {$$ = "\"@id\":\"" + $2 + "\",\"@title\":\"" + $4 + "\",";}
+		| ATT_ID STRING ATT_TITLE STRInG {$$ = "\"@id\":\"" + $2 + "\",\"@title\":\"" + $4 + "\",";}
 		;
 
 section_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"],";}
