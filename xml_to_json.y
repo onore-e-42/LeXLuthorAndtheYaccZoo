@@ -120,7 +120,7 @@ figure	: START_TAG FIGURE figure_att END_TAG {$$ = "{\"tag\":\"figure\"" + $3 + 
 		;
 
 figure_att	: ATT_ID STRING ATT_CAPTION STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\"";}
-		| ATT_ID STRING ATT_CAPTION STRING ATT_PATH STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\",\"@path\":\"" + $6 "\"";}
+		| ATT_ID STRING ATT_CAPTION STRING ATT_PATH STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\",\"@path\":\"" + $6 + "\"";}
 		;
 
 table	: START_TAG TABLE table_att CLOSE_TAG table_cnt OPEN_CLOSE TABLE CLOSE_TAG {$$ = "{\"tag\":\"table\"" + $3 + $5 +"}";}
