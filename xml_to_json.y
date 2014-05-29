@@ -2,7 +2,7 @@
   import java.io.*;
 %}
       
-%token NL ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES BOOK CELL CHAPTER DEDICATION END_TAG FIGURE ITEM LOF LOT NOTE PART PREFACE ROW SECTION  TABLE TOC ATT_CAPTION ATT_PATH START_TAG OPEN_CLOSE CLOSE_TAG
+%token ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES BOOK CELL CHAPTER DEDICATION END_TAG FIGURE ITEM LOF LOT NOTE PART PREFACE ROW SECTION TABLE TOC ATT_CAPTION ATT_PATH START_TAG OPEN_CLOSE CLOSE_TAG
 
        /* newline , in realtà questo non so se serve */
 
@@ -85,7 +85,7 @@ item	: START_TAG ITEM item_att END_TAG  {$$ = "{\"tag\":\"item\"" + $3 + "}";}
 item_att	: ATT_ID STRING {$$ = "\"@id\":\"" + $2 + "\",";}
 			;
 
-item_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"],";}
+item_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"],";}
 		|
 		;
 
@@ -109,7 +109,7 @@ section_att	: ATT_ID STRING {$$ = "\"@id\":\"" + $2 + "\",";}
 		| ATT_ID STRING ATT_TITLE STRING {$$ = "\"@id\":\"" + $2 + "\",\"@title\":\"" + $4 + "\",";}
 		;
 
-section_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"],";}
+section_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"],";}
 		| section {$$=$1;}
 		| figure {$$=$1;}
 		| table {$$=$1;}
@@ -120,7 +120,7 @@ figure	: START_TAG FIGURE figure_att END_TAG {$$ = "{\"tag\":\"figure\"" + $3 + 
 		;
 
 figure_att	: ATT_ID STRING ATT_CAPTION STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\"";}
-		| ATT_ID STRING ATT_CAPTION STRING ATT_PATH STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\",\"@caption\":\"" + $6 "\"";}
+		| ATT_ID STRING ATT_CAPTION STRING ATT_PATH STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\",\"@path\":\"" + $6 "\"";}
 		;
 
 table	: START_TAG TABLE table_att CLOSE_TAG table_cnt OPEN_CLOSE TABLE CLOSE_TAG {$$ = "{\"tag\":\"table\"" + $3 + $5 +"}";}
@@ -144,7 +144,7 @@ cell	: START_TAG CELL END_TAG {$$ = "{\"tag\":\"cell\"}";}
 		| START_TAG CELL CLOSE_TAG cell_cnt OPEN_CLOSE CELL CLOSE_TAG  {$$ = "{\"tag\":\"cell\"," + $4 + "}";}
 		;
 
-cell_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"]";}
+cell_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"]";}
 		|
 		;
 

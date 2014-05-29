@@ -15,8 +15,6 @@
 
 %x IN_TAG IN_MARKUP CLOSING_TAG
 
-NL 		= \r\n|\r|\n
-
 STRING		= ("'"[a-zA-Z0-9\-_]*"'" | '"'[a-zA-Z0-9\-_]*'"')
 TEXT		= ([a-zA-Z0-9\-_]*)
 
