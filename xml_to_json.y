@@ -104,7 +104,7 @@ section		: START_TAG SECTION section_att END_TAG {$$ = "{\"tag\":\"section\"" + 
 			;
 
 section_att	: ATT_ID STRING {$$ = "\"@id\":\"" + $2 + "\",";}
-		| ATT_ID STRING ATT_TITLE STRInG {$$ = "\"@id\":\"" + $2 + "\",\"@title\":\"" + $4 + "\",";}
+		| ATT_ID STRING ATT_TITLE STRING {$$ = "\"@id\":\"" + $2 + "\",\"@title\":\"" + $4 + "\",";}
 		;
 
 section_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"],";}
