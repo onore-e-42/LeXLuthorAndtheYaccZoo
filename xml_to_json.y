@@ -121,7 +121,7 @@ figure_att	: ATT_ID STRING ATT_CAPTION STRING {$$ = "\"@id\":\"" + $2 + "\",\"@c
 		| ATT_ID STRING ATT_CAPTION STRING ATT_PATH STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\",\"@caption\":\"" + $6 "\"";}
 		;
 
-table	: START_TAG TABLE table_att CLOSE_TAG table_cnt OPEN_CLOSE TABLE CLOSE_TAG $$ = "{\"tag\":\"table\"" + $3 + $5 +"}";}
+table	: START_TAG TABLE table_att CLOSE_TAG table_cnt OPEN_CLOSE TABLE CLOSE_TAG {$$ = "{\"tag\":\"table\"" + $3 + $5 +"}";}
 		;
 
 table_att	: ATT_ID STRING ATT_CAPTION STRING {$$ = "\"@id\":\"" + $2 + "\",\"@caption\":\"" + $4 + "\"";}
