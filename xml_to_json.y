@@ -2,11 +2,13 @@
   import java.io.*;
 %}
       
-%token NL ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES BOOK CELL CHAPTER DEDICATION END_TAG FIGURE ITEM LOF LOT NOTE PART PREFACE ROW SECTION  TABLE TOC ATT_CAPTION ATT_PATH           /* newline , in realtà questo non so se serve */
+%token NL ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES BOOK CELL CHAPTER DEDICATION END_TAG FIGURE ITEM LOF LOT NOTE PART PREFACE ROW SECTION  TABLE TOC ATT_CAPTION ATT_PATH START_TAG OPEN_CLOSE CLOSE_TAG
+
+       /* newline , in realtà questo non so se serve */
 
 %token<sval> TEXT STRING
 
-%type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att figure_cnt table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt 
+%type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt 
      
 %%
 
