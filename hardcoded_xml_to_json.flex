@@ -20,6 +20,7 @@ NL 		= \r\n|\r|\n
 STRING		= ("'"[a-zA-Z0-9\-_]*"'" | '"'[a-zA-Z0-9\-_]*'"')
 TEXT		= ([a-zA-Z0-9\-_]*)
 
+<<<<<<< HEAD
 START_TAG	= ("<")
 END_TAG		= ("/>")
 CLOSE_TAG	= (">")
@@ -28,6 +29,11 @@ ATT_ID		= ("id =")
 ATT_TITLE	= ("title =")
 ATT_CAPTION	= ("caption =")
 ATT_PATH	= ("path = ")
+=======
+START_TAG	= "<"
+END_TAG		= "/>"
+CLOSE_TAG	= ">"
+>>>>>>> a9257a0600a8261893ef0721b92425092ff349ac
 
 %%
 
