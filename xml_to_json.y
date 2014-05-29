@@ -4,14 +4,14 @@
       
 %token NL ATT_EDITION ATT_ID ATT_TITLE ATT_CAPTION ATT_PATH CLOSE_TAG END_TAG         /* newline , in realtà questo non so se serve */
 
-%token<sval> AUTHORNOTES_CLOSE AUTHORNOTES_OPEN BOOK_CLOSE BOOK_OPEN CELL_CLOSE CELL_OPEN CHAPTER_CLOSE CHAPTER_OPEN DEDICATION_CLOSE DEDICATION_OPEN FIGURE_CLOSE FIGURE_OPEN ITEM_CLOSE ITEM_OPEN LOF_CLOSE LOF_OPEN LOT_CLOSE LOT_OPEN NOTE_CLOSE NOTE_OPEN PART_CLOSE PART_OPEN PREFACE_CLOSE PREFACE_OPEN ROW_CLOSE ROW_OPEN SECTION_CLOSE SECTION_OPEN STRING TABLE_CLOSE TABLE_OPEN TEXT TOC_CLOSE TOC_OPEN KEYWORD
+%token<sval> OPEN_CLOSE AUTHORNOTES CLOSE_TAG START_TAG AUTHORNOTES OPEN_CLOSE BOOK CLOSE_TAG START_TAG BOOK OPEN_CLOSE CELL CLOSE_TAG START_TAG CELL OPEN_CLOSE CHAPTER CLOSE_TAG START_TAG CHAPTER OPEN_CLOSE DEDICATION CLOSE_TAG START_TAG DEDICATION OPEN_CLOSE FIGURE CLOSE_TAG START_TAG FIGURE OPEN_CLOSE ITEM CLOSE_TAG START_TAG ITEM OPEN_CLOSE LOF CLOSE_TAG START_TAG LOF OPEN_CLOSE LOT CLOSE_TAG START_TAG LOT OPEN_CLOSE NOTE CLOSE_TAG START_TAG NOTE OPEN_CLOSE PART CLOSE_TAG START_TAG PART OPEN_CLOSE PREFACE CLOSE_TAG START_TAG PREFACE OPEN_CLOSE ROW CLOSE_TAG START_TAG ROW OPEN_CLOSE SECTION CLOSE_TAG START_TAG SECTION STRING OPEN_CLOSE TABLE CLOSE_TAG START_TAG TABLE TEXT OPEN_CLOSE TOC CLOSE_TAG START_TAG TOC KEYWORD
 
 %type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att figure_cnt table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt
      
 %%
 
-book 		: BOOK_OPEN book_att END_TAG
-		| BOOK_OPEN book_att CLOSE_TAG book_cnt BOOK_CLOSE
+book 		: START_TAG BOOK book_att END_TAG
+		| START_TAG BOOK book_att CLOSE_TAG book_cnt OPEN_CLOSE BOOK CLOSE_TAG
 		;
 
 book_att	: ATT_EDITION STRING
@@ -21,8 +21,8 @@ book_att	: ATT_EDITION STRING
 book_cnt	: dedication preface part authornotes
 		;
 
-dedication	: DEDICATION_OPEN END_TAG
-		| DEDICATION_OPEN CLOSE_TAG dedication_cnt DEDICATION_CLOSE
+dedication	: START_TAG DEDICATION END_TAG
+		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG
 		|
 		;
 
@@ -30,16 +30,16 @@ dedication_cnt	: TEXT
 		|
 		;
 
-preface		: PREFACE_OPEN END_TAG
-		| PREFACE_OPEN CLOSE_TAG preface_cnt PREFACE_CLOSE
+preface		: START_TAG PREFACE END_TAG
+		| START_TAG PREFACE CLOSE_TAG preface_cnt OPEN_CLOSE PREFACE CLOSE_TAG
 		;
 
 preface_cnt	: TEXT
 		|
 		;
 
-part		: PART_OPEN part_att END_TAG
-		| PART_OPEN CLOSE_TAG part_cnt PART_CLOSE
+part		: START_TAG PART part_att END_TAG
+		| START_TAG PART CLOSE_TAG part_cnt OPEN_CLOSE PART CLOSE_TAG
 		| part part
 		;
 
@@ -52,28 +52,28 @@ part_cnt	: toc chapter lof lot
 		;
 
 
-toc		: TOC_OPEN END_TAG
-		| TOC_OPEN CLOSE_TAG toc_cnt TOC_CLOSE
+toc		: START_TAG TOC END_TAG
+		| START_TAG TOC CLOSE_TAG toc_cnt OPEN_CLOSE TOC CLOSE_TAG
 		;
 
 toc_cnt		: item
 		;
 
-lof		: LOF_OPEN END_TAG
-		| LOF_OPEN CLOSE_TAG lof_cnt LOF_CLOSE
+lof		: START_TAG LOF END_TAG
+		| START_TAG LOF CLOSE_TAG lof_cnt OPEN_CLOSE LOF CLOSE_TAG
 		;
 
 lof_cnt		: item
 		;
 
-lot		: LOT_OPEN END_TAG
-		| LOT_OPEN CLOSE_TAG lot_cnt LOT_CLOSE
+lot		: START_TAG LOT END_TAG
+		| START_TAG LOT CLOSE_TAG lot_cnt OPEN_CLOSE LOT CLOSE_TAG
 
 lot_cnt		: item
 		;
 
-item		: ITEM_OPEN item_att END_TAG
-		| ITEM_OPEN item_att CLOSE_TAG item_cnt ITEM_CLOSE
+item		: START_TAG ITEM item_att END_TAG
+		| START_TAG ITEM item_att CLOSE_TAG item_cnt OPEN_CLOSE ITEM CLOSE_TAG
 		| item item
 		;
 
@@ -85,8 +85,8 @@ item_cnt	: TEXT
 		|
 		;
 
-chapter		: CHAPTER_OPEN chapter_att END_TAG
-		| CHAPTER_OPEN chapter_att CLOSE_TAG chapter_cnt CHAPTER_CLOSE
+chapter		: START_TAG CHAPTER chapter_att END_TAG
+		| START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG
 		| chapter chapter
 		;
 		
@@ -98,13 +98,13 @@ chapter_att	: ATT_ID STRING
 chapter_cnt	: section
 		;
 
-section		: SECTION_OPEN section_att END_TAG
-		| SECTION_OPEN section_att CLOSE_TAG section_cnt SECTION_CLOSE
+section		: START_TAG SECTION section_att END_TAG
+		| START_TAG SECTION section_att CLOSE_TAG section_cnt OPEN_CLOSE SECTION CLOSE_TAG
 		| section section
 		;
 
-section_att	: ATT_ID
-		| ATT_TITLE
+section_att	: ATT_ID STRING
+		| ATT_TITLE STRING
 		|
 		;
 
@@ -115,8 +115,8 @@ section_cnt	: TEXT
 		|
 		;
 
-figure		: FIGURE_OPEN figure_att END_TAG
-		| FIGURE_OPEN figure_att CLOSE_TAG figure_cnt FIGURE_CLOSE
+figure		: START_TAG FIGURE figure_att END_TAG
+		| START_TAG FIGURE figure_att CLOSE_TAG OPEN_CLOSE FIGURE CLOSE_TAG
 		;
 
 figure_att	: ATT_ID STRING
@@ -125,10 +125,8 @@ figure_att	: ATT_ID STRING
 		|
 		;
 
-figure_cnt	:;
-
-table		: TABLE_OPEN table_att END_TAG
-		| TABLE_OPEN table_att CLOSE_TAG table_cnt TABLE_CLOSE
+table		: START_TAG TABLE table_att END_TAG
+		| START_TAG TABLE table_att CLOSE_TAG table_cnt OPEN_CLOSE TABLE CLOSE_TAG
 		;
 
 table_att	: ATT_ID STRING
@@ -139,16 +137,16 @@ table_att	: ATT_ID STRING
 table_cnt	: row
 		;
 
-row		: ROW_OPEN END_TAG
-		| ROW_OPEN CLOSE_TAG row_cnt ROW_CLOSE
+row		: START_TAG ROW END_TAG
+		| START_TAG ROW CLOSE_TAG row_cnt OPEN_CLOSE ROW CLOSE_TAG
 		| row row
 		;
 
 row_cnt		: cell
 		;
 
-cell		: CELL_OPEN END_TAG
-		| CELL_OPEN CLOSE_TAG cell_cnt CELL_CLOSE
+cell		: START_TAG CELL END_TAG
+		| START_TAG CELL CLOSE_TAG cell_cnt OPEN_CLOSE CELL CLOSE_TAG
 		| cell cell
 		;
 
@@ -156,16 +154,16 @@ cell_cnt	: TEXT
 		|
 		;
 
-authornotes	: AUTHORNOTES_OPEN END_TAG
-		| AUTHORNOTES_OPEN CLOSE_TAG authornotes_cnt AUTHORNOTES_CLOSE
+authornotes	: START_TAG AUTHORNOTES END_TAG
+		| START_TAG AUTHORNOTES CLOSE_TAG authornotes_cnt OPEN_CLOSE AUTHORNOTES CLOSE_TAG
 		|
 		;
 
 authornotes_cnt : note
 		;
 
-note		: NOTE_OPEN END_TAG
-		| NOTE_OPEN CLOSE_TAG note_cnt NOTE_CLOSE
+note		: START_TAG NOTE END_TAG
+		| START_TAG NOTE CLOSE_TAG note_cnt OPEN_CLOSE NOTE CLOSE_TAG
 		| note note
 		;
 
@@ -193,7 +191,7 @@ note_cnt	: TEXT
 
 
   public void yyerror (String error) {
-    System.err.println ("Error: line %d: %s\n" + error + yychar);
+    System.err.println ("Error: " + error + yychar);
   }
 
 

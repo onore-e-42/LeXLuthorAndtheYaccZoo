@@ -13,122 +13,93 @@
 
 %}
 
-%x IN_TAG
+%x IN_TAG IN_MARKUP CLOSING_TAG
 
-NL = \r\n|\r|\n
+NL 		= \r\n|\r|\n
 
-STRING		= "'" TEXT* "'" | '"' TEXT* '"'
-TEXT		= (any legal XML character)
+STRING		= ("'"[a-zA-Z0-9\-_]*"'" | '"'[a-zA-Z0-9\-_]*'"')
+TEXT		= ([a-zA-Z0-9\-_]*)
 
-START_TAG	= "<"
-END_TAG		= ">"
-CLOSE_TAG	= "/>"
+START_TAG	= ("<")
+END_TAG		= ("/>")
+CLOSE_TAG	= (">")
+OPEN_CLOSE	= ("</")
+ATT_ID		= ("id =")
+ATT_TITLE	= ("title =")
+ATT_CAPTION	= ("caption =")
+ATT_PATH	= ("path = ")
 
 %%
 
-<IN_TAG, YYINITIAL>{NL}		{return Parser.NL;}
+<IN_TAG, IN_MARKUP, CLOSING_TAG, YYINITIAL>{
+		{NL}		{return Parser.NL;}
+	}
 
-"<book"				{yybegin(IN_TAG)
-				 return BOOK_OPEN;}
+{START_TAG}			{yybegin(IN_TAG);
+				 return Parser.START_TAG;}
 
-"<dedication"			{yybegin(IN_TAG)
-				 return DEDICATION_OPEN;}
+<IN_TAG>{
 
-"<preface"			{yybegin(IN_TAG)
-				 return PREFACE_OPEN;}
+		"book"		{return Parser.BOOK;}
+		"dedication"	{return Parser.DEDICATION;}
+		"preface"	{return Parser.PREFACE;}
+		"part"		{return Parser.PART;}
+		"toc"		{return Parser.TOC;}
+		"lof"		{return Parser.LOF;}
+		"lot"		{return Parser.LOT;}
+		"item"		{return Parser.ITEM;}
+		"chapter"	{return Parser.CHAPTER;}
+		"section"	{return Parser.SECTION;}
+		"figure"	{return Parser.FIGURE;}
+		"table"		{return Parser.TABLE;}
+		"row"		{return Parser.ROW;}
+		"cell"		{return Parser.CELL;}
+		"authornotes"	{return Parser.AUTHORNOTES;}
+		"note"		{return Parser.NOTE;}
 
-"<part"				{yybegin(IN_TAG)
-				 return PART_OPEN;}
+		{END_TAG}	{yybegin(IN_MARKUP);
+				 return Parser.END_TAG;}
+		{CLOSE_TAG}	{yybegin(YYINITIAL);
+				 return Parser.CLOSE_TAG;}
+	
+		{ATT_EDITION}	{return Parser.ATT_EDITION;}
+		{ATT_ID}	{return Parser.ATT_ID;}
+		{ATT_TITLE}	{return Parser.ATT_TITLE;}
+		{ATT_CAPTION}	{return Parser.ATT_CAPTION;}
+		{ATT_PATH}	{return Parser.ATT_PATH;}
 
-"<toc"				{yybegin(IN_TAG)
-				 return TOC_OPEN;}
+		{STRING}	{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.STRING;}	
 
-"<lof"				{yybegin(IN_TAG)
-				 return LOF_OPEN;}
+	}		
 
-"<lot"				{yybegin(IN_TAG)
-				 return LOT_OPEN;}
+<IN_MARKUP>{
+		
+		{OPEN_CLOSE}	{yybegin(CLOSING_TAG);
+				 return Parser.OPEN_CLOSE;}
 
-"<item"				{yybegin(IN_TAG)
-				 return ITEM_OPEN;}
+		{TEXT}		{yyparser.yylval = new ParserVal(yytext());
+				 return Parser.TEXT;}
+   	} 
 
-"<chapter"			{yybegin(IN_TAG)
-				 return CHAPTER_OPEN;}
+<CLOSING_TAG>{
+		"book"		{return Parser.BOOK;}
+		"dedication"	{return Parser.DEDICATION;}
+		"preface"	{return Parser.PREFACE;}
+		"part"		{return Parser.PART;}
+		"toc"		{return Parser.TOC;}
+		"lof"		{return Parser.LOF;}
+		"lot"		{return Parser.LOT;}
+		"item"		{return Parser.ITEM;}
+		"chapter"	{return Parser.CHAPTER;}
+		"section"	{return Parser.SECTION;}
+		"figure"	{return Parser.FIGURE;}
+		"table"		{return Parser.TABLE;}
+		"row"		{return Parser.ROW;}
+		"cell"		{return Parser.CELL;}
+		"authornotes"	{return Parser.AUTHORNOTES;}
+		"note"		{return Parser.NOTE;}
 
-"<section"			{yybegin(IN_TAG)
-				 return SECTION_OPEN;}
-
-"<figure"			{yybegin(IN_TAG)
-				 return FIGURE_OPEN;}
-
-"<table"			{yybegin(IN_TAG)
-				 return TABLE_OPEN;}
-
-"<row"				{yybegin(IN_TAG)
-				 return ROW_OPEN;}
-
-"<cell"				{yybegin(IN_TAG)
-				 return CELL_OPEN;}
-
-"<authornotes"			{yybegin(IN_TAG)
-				 return AUTHORNOTES_OPEN;}
-
-"<note" 			{yybegin(IN_TAG)
-				 return NOTE_OPEN;}
-
-"</book>"			{yybegin(YYINITIAL)
-				 return BOOK_CLOSE;}
-
-"</dedication>"			{yybegin(IYYINITIAL)
-				 return DEDICATION_CLOSE;}
-
-"</preface>"			{yybegin(YYINITIAL)
-				 return PREFACE_CLOSE;}
-
-"</part>"			{yybegin(YYINITIAL)
-				 return PART_CLOSE;}
-
-"</toc>"			{yybegin(YYINITIAL)
-				 return TOC_CLOSE;}
-
-"</lof>"			{yybegin(YYINITIAL)
-				 return LOF_CLOSE;}
-
-"</lot>"			{yybegin(YYINITIAL)
-				 return LOT_CLOSE;}
-
-"</item>"			{yybegin(YYINITIAL)
-				 return ITEM_CLOSE;}
-
-"</chapter>"			{yybegin(YYINITIAL)
-				 return CHAPTER_CLOSE;}
-
-"</section>"			{yybegin(YYINITIAL)
-				 return SECTION_CLOSE;}
-
-"</figure>"			{yybegin(YYINITIAL)
-				 return FIGURE_CLOSE;}
-
-"</table>"			{yybegin(YYINITIAL)
-				 return TABLE_CLOSE;}
-
-"</row>"			{yybegin(YYINITIAL)
-				 return ROW_CLOSE;}
-
-"</cell>"			{yybegin(YYINITIAL)
-				 return CELL_CLOSE;}
-
-"</authornotes>"		{yybegin(YYINITIAL)
-				 return AUTHORNOTES_CLOSE;}
-
-"</note>" 			{yybegin(YYINITIAL)
-				 return NOTE_CLOSE;}
-
-/* whitespace */
-[ \t]+ { }
-
-\b     { System.err.println("Sorry, backspace doesn't work"); }
-
-/* error fallback */
-[^]    { System.err.println("Error: unexpected character '"+yytext()+"'"); return -1; }
-
+		{END_TAG}	{yybegin(YYINITIAL);
+				 return Parser.END_TAG;}
+	}
