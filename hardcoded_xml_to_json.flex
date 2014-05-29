@@ -29,9 +29,7 @@ ATT_PATH	= ("path =")
 ATT_EDITION	= ("edition =")
 %%
 
-<IN_TAG, IN_MARKUP, CLOSING_TAG, YYINITIAL>{
-		{NL}		{return Parser.NL;}
-	}
+
 
 {START_TAG}			{yybegin(IN_TAG);
 				 return Parser.START_TAG;}
