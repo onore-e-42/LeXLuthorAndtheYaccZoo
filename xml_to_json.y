@@ -1,69 +1,118 @@
-book            = "<book" book_att* ( "/>" | ">" book_cnt "</book>" )
-book_att        = "edition" "=" STRING
-book_cnt        = dedication? preface part+ authornotes?
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Copyright (C) 2001 Gerwin Klein <lsf@jflex.de>                          *
+ * All rights reserved.                                                    *
+ *                                                                         *
+ * This is a modified version of the example from                          *
+ *   http://www.lincom-asg.com/~rjamison/byacc/                            *
+ *                                                                         *
+ * Thanks to Larry Bell and Bob Jamison for suggestions and comments.      *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or modify    *
+ * it under the terms of the GNU General Public License. See the file      *
+ * COPYRIGHT for more information.                                         *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License along *
+ * with this program; if not, write to the Free Software Foundation, Inc., *
+ * 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA                 *
+ *                                                                         *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-dedication      = "<dedication" ( "/>" | ">" dedication_cnt
-                  "</dedication>" )
-dedication_cnt  = TEXT*
+%{
+  import java.io.*;
+%}
+      
+%token NL          /* newline  */
+%token <dval> NUM  /* a number */
+%token LOG10 LN LOGB
 
-preface         = "<preface" ( "/>" | ">" preface_cnt "</preface>" )
-preface_cnt     = TEXT*
+%type <dval> exp
 
-part            = "<part" part_att* ( "/>" | ">" part_cnt "</part>" )
-part_att        = "id" "=" STRING
-                | "title" "=" STRING
-part_cnt        = toc chapter+ lof? lot?
+%left '-' '+'
+%left '*' '/' '%'
+%left NEG          /* negation--unary minus */
+%left LOB10 LN LOGB
+%right '^'         /* exponentiation        */
+      
+%%
 
-toc             = "<toc" ( "/>" | ">" toc_cnt "</toc>" )
-toc_cnt         = item+
+input:   /* empty string */
+       | input line
+       ;
+      
+line:    NL      { if (interactive) System.out.print("Expression: "); }
+       | exp NL  { System.out.println(" = " + $1); 
+                   if (interactive) System.out.print("Expression: "); }
+       ;
+      
+exp:    NUM                { $$ = $1; }
+       | exp '+' exp        { $$ = $1 + $3; }
+       | exp '-' exp        { $$ = $1 - $3; }
+       | exp '*' exp        { $$ = $1 * $3; }
+       | exp '/' exp        { $$ = $1 / $3; }
+       | exp '%' exp        { $$ = $1 % $3; }
+       | '-' exp  %prec NEG { $$ = -$2; }
+       | exp '^' exp        { $$ = Math.pow($1, $3); }
+       | LOG10 exp          { $$ = Math.log10($2); }
+       | LN exp             { $$ = Math.log($2); }
+       | LOGB exp exp       { $$ = Math.log10($3) / Math.log10($2); }
+       | '(' exp ')'        { $$ = $2; }
+       ;
 
-lof             = "<lof" ( "/>" | ">" lof_cnt "</lof>" )
-lof_cnt         = item+
+%%
 
-lot             = "<lot" ( "/>" | ">" lot_cnt "</lot>" )
-lot_cnt         = item+
+  private Yylex lexer;
 
-item            = "<item" item_att* ( "/>" | ">" item_cnt "</item>" )
-item_att        = "id" "=" STRING
-item_cnt        = TEXT*
 
-chapter         = "<chapter" chapter_att* ( "/>" | ">" chapter_cnt
-                  "</chapter>" )
-chapter_att     = "id" "=" STRING
-                | "title" "=" STRING
-chapter_cnt     = section+
+  private int yylex () {
+    int yyl_return = -1;
+    try {
+      yylval = new ParserVal(0);
+      yyl_return = lexer.yylex();
+    }
+    catch (IOException e) {
+      System.err.println("IO error :"+e);
+    }
+    return yyl_return;
+  }
 
-section         = "<section" section_att* ( "/>" | ">" section_cnt
-                  "</section>" )
-section_att     = "id" "=" STRING
-                | "title" "=" STRING
-section_cnt     = ( TEXT* | section | figure | table )*
 
-figure          = "<figure" figure_att* ( "/>" | ">" figure_cnt
-                  "</figure>" )
-figure_att      = "id" "=" STRING
-                | "caption" "=" STRING
-                | "path" "=" STRING
-figure_cnt      = ;empty
+  public void yyerror (String error) {
+    System.err.println ("Error: " + error);
+  }
 
-table           = "<table" table_att* ( "/>" | ">" table_cnt "</table>"
-                  )
-table_att       = "id" "=" STRING
-                | "caption" "=" STRING
-table_cnt       = row+
 
-row             = "<row" ( "/>" | ">" row_cnt "</row>" )
-row_cnt         = cell+
+  public Parser(Reader r) {
+    lexer = new Yylex(r, this);
+  }
 
-cell            = "<cell" ( "/>" | ">" cell_cnt "</cell>" )
-cell_cnt        = TEXT*
 
-authornotes     = "<authornotes" ( "/>" | ">" authornotes_cnt
-                  "</authornotes>" )
-authornotes_cnt = note+
+  static boolean interactive;
 
-note            = "<note" ( "/>" | ">" note_cnt "</note>" )
-note_cnt        = TEXT*
+  public static void main(String args[]) throws IOException {
+    System.out.println("BYACC/Java with JFlex Calculator Demo");
 
-STRING          = "'" TEXT* "'" | '"' TEXT* '"'
-TEXT            = (any legal XML character)
+    Parser yyparser;
+    if ( args.length > 0 ) {
+      // parse a file
+      yyparser = new Parser(new FileReader(args[0]));
+    }
+    else {
+      // interactive mode
+      System.out.println("[Quit with CTRL-D]");
+      System.out.print("Expression: ");
+      interactive = true;
+	    yyparser = new Parser(new InputStreamReader(System.in));
+    }
+
+    yyparser.yyparse();
+    
+    if (interactive) {
+      System.out.println();
+      System.out.println("Have a nice day");
+    }
+  }
