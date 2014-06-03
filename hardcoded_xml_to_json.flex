@@ -15,12 +15,12 @@
 
 %x OPENING_TAG CLOSING_TAG
 
-NL  = \r\n|\r|\n
+NL  = [\r\n\t]+
 
 VERSION		= "<?xml version=\'1.0\' encoding=\'UTF-8\'?>"
 DOCTYPE		= "<\!DOCTYPE book SYSTEM \"book.dtd\">"
-STRING		= (\"[a-zA-Z0-9\-_ ]+\")
-TEXT	 	= [a-zA-Z0-9\-_ ]+
+STRING		= (\"[a-zA-Z0-9\-_ .]+\")
+TEXT	 	= [a-zA-Z0-9\-_,.;: \r\n\t\a\b]+
 START_TAG	= [<]
 END_TAG		= "/>"
 CLOSE_TAG	= [>]
@@ -32,7 +32,7 @@ ATT_PATH	= (" path=")
 ATT_EDITION	= (" edition=")
 %%
 
-<YYINITIAL,OPENING_TAG,CLOSING_TAG>{NL}    { return Parser.NL; } 
+<YYINITIAL,OPENING_TAG,CLOSING_TAG>{NL}    {} 
 {VERSION}	{System.out.println("Debug: version");
 			return Parser.VERSION;}
 {DOCTYPE}	{return Parser.DOCTYPE;}
@@ -59,23 +59,33 @@ ATT_EDITION	= (" edition=")
 		"dedication"	{System.out.println("Debug: dedication");
 						return Parser.DEDICATION;}
 		"preface"	{					System.out.println("Debug: preface");
-										System.out.println(Parser.PREFACE);
 					return Parser.PREFACE;}
 		"part"		{					System.out.println("Debug: part");
 					return Parser.PART;}
 		"toc"		{					System.out.println("Debug: toc");
 					return Parser.TOC;}
-		"lof"		{return Parser.LOF;}
-		"lot"		{return Parser.LOT;}
-		"item"		{return Parser.ITEM;}
-		"chapter"	{return Parser.CHAPTER;}
-		"section"	{return Parser.SECTION;}
-		"figure"	{return Parser.FIGURE;}
-		"table"		{return Parser.TABLE;}
-		"row"		{return Parser.ROW;}
-		"cell"		{return Parser.CELL;}
-		"authornotes"	{return Parser.AUTHORNOTES;}
-		"note"		{return Parser.NOTE;}
+		"lof"		{System.out.println("Debug: lof");
+					return Parser.LOF;}
+		"lot"		{System.out.println("Debug: lot");
+					return Parser.LOT;}
+		"item"		{System.out.println("Debug: item");
+					return Parser.ITEM;}
+		"chapter"	{System.out.println("Debug: chapter");
+					return Parser.CHAPTER;}
+		"section"	{System.out.println("Debug: section");
+					return Parser.SECTION;}
+		"figure"	{System.out.println("Debug: figure");
+					return Parser.FIGURE;}
+		"table"		{System.out.println("Debug: table");
+					return Parser.TABLE;}
+		"row"		{System.out.println("Debug: row");
+					return Parser.ROW;}
+		"cell"		{System.out.println("Debug: cell");
+					return Parser.CELL;}
+		"authornotes"	{System.out.println("Debug: authornotes");
+					return Parser.AUTHORNOTES;}
+		"note"		{System.out.println("Debug: note");
+					return Parser.NOTE;}
 
 		{END_TAG}	{					System.out.println("Debug: />");
 					yybegin(YYINITIAL);
@@ -90,7 +100,8 @@ ATT_EDITION	= (" edition=")
 		{ATT_CAPTION}	{return Parser.ATT_CAPTION;}
 		{ATT_PATH}	{return Parser.ATT_PATH;}
 
-		{STRING}	{yyparser.yylval = new ParserVal(yytext());
+		{STRING}	{System.out.println("Debug: string");
+					yyparser.yylval = new ParserVal(yytext());
 				 return Parser.STRING;}	
 
 	}		
