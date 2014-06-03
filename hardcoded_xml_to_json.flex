@@ -17,8 +17,10 @@
 
 NL  = \r\n|\r|\n
 
-STRING		= "string"
-TEXT	 	= [a-zA-Z0-9\-_]+
+VERSION		= "<?xml version=\'1.0\' encoding=\'UTF-8\'?>"
+DOCTYPE		= "<\!DOCTYPE book SYSTEM \"book.dtd\">"
+STRING		= (\"[a-zA-Z0-9\-_ ]+\")
+TEXT	 	= [a-zA-Z0-9\-_ ]+
 START_TAG	= [<]
 END_TAG		= "/>"
 CLOSE_TAG	= [>]
@@ -31,24 +33,38 @@ ATT_EDITION	= (" edition=")
 %%
 
 <YYINITIAL,OPENING_TAG,CLOSING_TAG>{NL}    { return Parser.NL; } 
+{VERSION}	{System.out.println("Debug: version");
+			return Parser.VERSION;}
+{DOCTYPE}	{return Parser.DOCTYPE;}
 
-{START_TAG}			{yybegin(OPENING_TAG);
+{START_TAG}			{					System.out.println("Debug: <");
+					yybegin(OPENING_TAG);
 				 return Parser.START_TAG;}
 
-{TEXT}				{yyparser.yylval = new ParserVal(yytext());
+{TEXT}				{
+										System.out.println("Debug: text");
+					yyparser.yylval = new ParserVal(yytext());
 				 return Parser.TEXT;}
 
-{OPEN_CLOSE}			{yybegin(CLOSING_TAG);
+{OPEN_CLOSE}			{					System.out.println("Debug: >");
+					yybegin(CLOSING_TAG);
 				 return Parser.OPEN_CLOSE;}
 
 
 <OPENING_TAG>{
-
-		"book"		{return Parser.BOOK;}
-		"dedication"	{return Parser.DEDICATION;}
-		"preface"	{return Parser.PREFACE;}
-		"part"		{return Parser.PART;}
-		"toc"		{return Parser.TOC;}
+		
+		"book"		{
+					System.out.println("Debug: book");
+					return Parser.BOOK;}
+		"dedication"	{System.out.println("Debug: dedication");
+						return Parser.DEDICATION;}
+		"preface"	{					System.out.println("Debug: preface");
+										System.out.println(Parser.PREFACE);
+					return Parser.PREFACE;}
+		"part"		{					System.out.println("Debug: part");
+					return Parser.PART;}
+		"toc"		{					System.out.println("Debug: toc");
+					return Parser.TOC;}
 		"lof"		{return Parser.LOF;}
 		"lot"		{return Parser.LOT;}
 		"item"		{return Parser.ITEM;}
@@ -61,9 +77,11 @@ ATT_EDITION	= (" edition=")
 		"authornotes"	{return Parser.AUTHORNOTES;}
 		"note"		{return Parser.NOTE;}
 
-		{END_TAG}	{yybegin(YYINITIAL);
+		{END_TAG}	{					System.out.println("Debug: />");
+					yybegin(YYINITIAL);
 				 return Parser.END_TAG;}
-		{CLOSE_TAG}	{yybegin(YYINITIAL);
+		{CLOSE_TAG}	{					System.out.println("Debug: >");
+					yybegin(YYINITIAL);
 				 return Parser.CLOSE_TAG;}
 	
 		{ATT_EDITION}	{return Parser.ATT_EDITION;}
