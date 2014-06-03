@@ -17,13 +17,12 @@
 
 NL  = \r\n|\r|\n
 
-STRING		= ("string")
-TEXT		= ("text")
-
-START_TAG	= ("<")
-END_TAG		= ("\/>")
-CLOSE_TAG	= (">")
-OPEN_CLOSE	= ("<\/")
+STRING		= "string"
+TEXT	 	= [a-zA-Z0-9\-_]+
+START_TAG	= [<]
+END_TAG		= "/>"
+CLOSE_TAG	= [>]
+OPEN_CLOSE	= "</"
 ATT_ID		= (" id=")
 ATT_TITLE	= (" title=")
 ATT_CAPTION	= (" caption=")
@@ -98,7 +97,7 @@ ATT_EDITION	= (" edition=")
 		"note"		{return Parser.NOTE;}
 
 		{CLOSE_TAG}	{yybegin(YYINITIAL);
-				 return Parser.END_TAG;}
+				 return Parser.CLOSE_TAG;}
 	}
 
 

@@ -7,28 +7,32 @@
 
 %token<sval> TEXT STRING
 
-%type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt 
+%type<sval> book book_att book_cnt dedication dedication_cnt preface preface_cnt part part_att part_cnt toc toc_cnt lof lof_cnt lot lot_cnt item item_att item_cnt chapter chapter_att chapter_cnt section section_att section_cnt figure figure_att table table_att table_cnt row row_cnt cell cell_cnt authornotes authornotes_cnt note note_cnt file line 
      
 %%
+line		: NL { $$ = System.lineSeparator(); }
+		| line NL  { $$ = $1 + System.lineSeparator(); }
+		;
 
-book 		: START_TAG BOOK book_att END_TAG	  {$$ = "{\"tag\":\"book\"," + $3 + "}";}
+config		: file	{System.out.print($1);}
+
+file		: book  {$$ = $1;}
+		| file file {$$ = $1 + $2;}
+
+book 		: START_TAG BOOK book_att END_TAG {$$ = "{\"tag\":\"book\"," + $3 + "}";}
 		| START_TAG BOOK book_att CLOSE_TAG book_cnt OPEN_CLOSE BOOK CLOSE_TAG {$$ = "{\"tag\":\"book\"," + $3 + $5 +"}";}
 		;
 
-book_att	: ATT_EDITION STRING	{$$ = "\"@edition\":\"" + $2 + "\"";}
-		|			{$$ ="";}
+book_att	: ATT_EDITION STRING {$$ = "\"@edition\":\"" + $2 + "\"";}
+		| {$$ ="";}
 		;
 
-book_cnt	: dedication preface part authornotes	{$$ = $1 + $2 + $3 + $4;}
-		| dedication preface part {$$ = $1 + $2 + $3;}
-		| preface part authornotes {$$ = $1 + $2 + $3;}
-		| preface part {$$ = $1 + $2;}
-		| preface {$$ = $1;}
+book_cnt	: dedication preface part authornotes {$$ = $1 + $2 + $3 + $4;}
 		;
 
 dedication	: START_TAG DEDICATION END_TAG {$$ = "{\"tag\":\"dedication\"}";}
 		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{$$ = "{\"tag\":\"dedication\"," + $4 + "}";}
-		|				{$$ = "";}
+		| {$$ = "";}
 		;
 
 dedication_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"]";}
@@ -39,7 +43,7 @@ preface		: START_TAG PREFACE END_TAG {$$ = "{\"tag\":\"preface\"}";}
 		| START_TAG PREFACE CLOSE_TAG preface_cnt OPEN_CLOSE PREFACE CLOSE_TAG {$$ = "{\"tag\":\"preface\"," + $4 + "}";}
 		;
 
-preface_cnt	: TEXT	{$$ = "\"content\": [\"" + $1 + "\"]";}
+preface_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"]";}
 		| {$$ = "";}
 		;
 
@@ -53,17 +57,14 @@ part_att	: ATT_ID STRING	{$$ = "\"@id\":\"" + $2 + "\",";}
 		| ATT_ID STRING ATT_TITLE STRING {$$ = "\"@id\":\"" + $2 + "\",\"@title\":\"" + $4 + "\",";}
 		;
 
-part_cnt	: toc chapter lof lot	{$$ = $1 + $2 + $3 + $4;}
-		| toc chapter lof {$$ = $1 + $2 + $3;}
-		| toc chapter lot {$$ = $1 + $2 + $3;}
-		| toc chapter {$$ = $1 + $2;}
+part_cnt	: toc chapter lof lot {$$ = $1 + $2 + $3 + $4;}
 		;
 
 
 toc		: START_TAG TOC CLOSE_TAG toc_cnt OPEN_CLOSE TOC CLOSE_TAG {$$ = "{\"tag\":\"toc\"," + $4 + "}";}
 		;
 
-toc_cnt	: item	{$$=$1;}
+toc_cnt		: item	{$$=$1;}
 		;
 
 lof		: START_TAG LOF CLOSE_TAG lof_cnt OPEN_CLOSE LOF CLOSE_TAG {$$ = "{\"tag\":\"lof\"," + $4 + "}";}
@@ -87,7 +88,7 @@ item_att	: ATT_ID STRING {$$ = "\"@id\":\"" + $2 + "\",";}
 			;
 
 item_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"],";}
-		|
+		| {$$ = "";}
 		;
 
 chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG {$$ = "{\"tag\":\"chapter\"" + $3 + $5 +"}";}
@@ -146,12 +147,12 @@ cell		: START_TAG CELL END_TAG {$$ = "{\"tag\":\"cell\"}";}
 		;
 
 cell_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"]";}
-		|
+		| {$$ = "";}
 		;
 
 authornotes	: START_TAG AUTHORNOTES END_TAG {$$ = "{\"tag\":\"authornotes\"}";}
 		| START_TAG AUTHORNOTES CLOSE_TAG authornotes_cnt OPEN_CLOSE AUTHORNOTES CLOSE_TAG {$$ = "{\"tag\":\"authornotes\"," + $4 + "}";}
-		|				{$$ = "";}
+		| {$$ = "";}
 		;
 
 authornotes_cnt : note cell	{$$=$1;}
@@ -163,7 +164,7 @@ note		: START_TAG NOTE END_TAG {$$ = "{\"tag\":\"note\"}";}
 		;
 
 note_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"]";}
-		|
+		| {$$ = "";}
 		;
 %%
  
