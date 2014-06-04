@@ -3,7 +3,7 @@
 %}
       
 %token ATT_EDITION ATT_ID ATT_TITLE AUTHORNOTES BOOK CELL CHAPTER DEDICATION END_TAG FIGURE ITEM LOF LOT NOTE PART PREFACE ROW SECTION TABLE TOC ATT_CAPTION ATT_PATH START_TAG OPEN_CLOSE CLOSE_TAG NL VERSION DOCTYPE
-       /* newline , in realtà questo non so se serve */
+       /* new, in realtà questo non so se serve */
 
 %token<sval> TEXT STRING
 
@@ -11,7 +11,7 @@
      
 %%
 
-fruffole : VERSION line DOCTYPE line book {System.out.print($5);}
+fruffole : VERSION  DOCTYPE book {System.out.print($3);}
 		 | book {System.out.print($1);}
 		;
 		
@@ -20,8 +20,8 @@ line : NL { $$ = System.lineSeparator(); }
 	 | {$$="";}
      ;
 		
-book 		: START_TAG BOOK book_att END_TAG line	  {$$ = "{\"tag\":\"book\"," + $3 + "}";}
-		| START_TAG BOOK book_att CLOSE_TAG line book_cnt line OPEN_CLOSE BOOK CLOSE_TAG {$$ = "{\"tag\":\"book\"," + $3 + $6 +"}";}
+book 		: START_TAG BOOK book_att END_TAG  {$$ = "{\"tag\":\"book\"," + $3 + "}";}
+		| START_TAG BOOK book_att CLOSE_TAG  book_cnt  OPEN_CLOSE BOOK CLOSE_TAG {$$ = "{\"tag\":\"book\"," + $3 + $5 +"}";}
 		;
 
 book_att	: ATT_EDITION STRING	{$$ = "\"@edition\":" + $2 ;}
@@ -60,7 +60,7 @@ part_att	: ATT_ID STRING	{$$ = "\"@id\":" + $2 + ",";}
 		| ATT_ID STRING ATT_TITLE STRING {$$ = "\"@id\":" + $2 + ",\"@title\":" + $4 + ",";}
 		;
 
-part_cnt	: toc chapter lof lot	{$$ = $1 + $2 + $3 + $4;}
+part_cnt : toc chapter lof lot	{$$ = $1 + $2 + $3 + $4;}
 		| toc chapter lof {$$ = $1 + $2 + $3;}
 		| toc chapter lot {$$ = $1 + $2 + $3;}
 		| toc chapter {$$ = $1 + $2;}
@@ -74,12 +74,14 @@ toc_cnt	: item	{$$=$1;}
 		;
 
 lof		: START_TAG LOF CLOSE_TAG lof_cnt OPEN_CLOSE LOF CLOSE_TAG {$$ = "{\"tag\":\"lof\"," + $4 + "}";}
+		| {$$ = "";}
 		;
 
-lof_cnt		: item {$$=$1;}
+lof_cnt	: item {$$=$1;}
 		;
 
 lot		: START_TAG LOT CLOSE_TAG lot_cnt OPEN_CLOSE LOT CLOSE_TAG {$$ = "{\"tag\":\"lot\"," + $4 + "}";}
+		| {$$ = "";}
 		;
 
 lot_cnt		: item {$$=$1;}
@@ -191,7 +193,7 @@ note_cnt	: TEXT {$$ = "\"content\": [\n\"" + $1 + "\"]";}
 
 
   public void yyerror (String error) {
-    System.err.println ("Error: line %d: %s\n" + error + yychar + yytext + " " + yyn + "STRING " + yys + " " + yym + " " + yystate);
+    System.err.println ("Error: %d: %s\n" + error + yychar + yytext + " " + yyn + "STRING " + yys + " " + yym + " " + yystate);
   }
 
 

@@ -15,7 +15,7 @@
 
 %x OPENING_TAG CLOSING_TAG
 
-NL  = [\r\n\t]+
+NL  = [\s\r\n\t]+
 
 VERSION		= "<?xml version=\'1.0\' encoding=\'UTF-8\'?>"
 DOCTYPE		= "<\!DOCTYPE book SYSTEM \"book.dtd\">"
@@ -46,7 +46,7 @@ ATT_EDITION	= (" edition=")
 					yyparser.yylval = new ParserVal(yytext());
 				 return Parser.TEXT;}
 
-{OPEN_CLOSE}			{					System.out.println("Debug: >");
+{OPEN_CLOSE}			{					System.out.println("Debug: </");
 					yybegin(CLOSING_TAG);
 				 return Parser.OPEN_CLOSE;}
 
