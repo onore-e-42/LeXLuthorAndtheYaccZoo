@@ -15,7 +15,7 @@
 
 %x OPENING_TAG CLOSING_TAG
 
-NL  = [\s\r\n\t]+
+NL  = [ \s\r\n\t]+
 
 VERSION		= "<?xml version=\'1.0\' encoding=\'UTF-8\'?>"
 DOCTYPE		= "<\!DOCTYPE book SYSTEM \"book.dtd\">"
