@@ -25,11 +25,11 @@ book_att	: ATT_EDITION STRING	{$$ = "\"@edition\":" + $2 ;}
 		;
 
 book_cnt	: dedication preface parts authornotes	{$$ = $1 + $2 + $3 + $4;}
+		| preface parts authornotes {$$ = $1 + $2 + $3;}
 		;
 
-dedication	: START_TAG DEDICATION END_TAG {$$ = "{\"tag\":\"dedication\"}";}
-		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{$$ = "{\"tag\":\"dedication\"," + $4 + "}";}
-		| {$$ = "";}
+dedication	: START_TAG DEDICATION END_TAG {System.out.println("dedication1");$$ = "{\"tag\":\"dedication\"}";}
+		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{System.out.println("dedication1");$$ = "{\"tag\":\"dedication\"," + $4 + "}";}
 		;
 
 dedication_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"]";}
@@ -45,7 +45,7 @@ preface_cnt	: TEXT	{$$ = "\"content\": [\"" + $1 + "\"]";}
 		;
 
 parts		: part {$$ = $1;}
-		| part parts {$$ = $1 + $2;}
+		| parts part {$$ = $1 + $2;}
 		;
 
 part		: START_TAG PART part_att END_TAG  {$$ = "{\"tag\":\"part\"" + $3 + "}";}
@@ -81,7 +81,7 @@ lot_cnt		: items {$$=$1;}
 		;
 
 items		: item {$$ = $1;}
-		| item items {$$ = $1;}
+		| items item {$$ = $1;}
 
 item		: START_TAG ITEM item_att END_TAG  {$$ = "{\"tag\":\"item\"" + $3 + "}";}
 		| START_TAG ITEM item_att CLOSE_TAG item_cnt OPEN_CLOSE ITEM CLOSE_TAG {$$ = "{\"tag\":\"item\"" + $3 + $5 + "}";}
@@ -94,11 +94,11 @@ item_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"],";}
 		|	{$$="";}
 		;
 
-chapters	: chapter {$$ = $1;}
-		| chapter chapters {$$ = $1 + $2;}
+chapters	: chapter {$$ = $1; System.out.println("SINGOLO");}
+		| chapters chapter {$$ = $1 + $2; System.out.println("RICORSIVO");}
 		;
 
-chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG {$$ = "{\"tag\":\"chapter\"" + $3 + $5 +"}";}
+chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG {System.out.println("AAA"); $$ = "{\"tag\":\"chapter\"" + $3 + $5 +"}";}
 		;
 
 chapter_att	: ATT_ID STRING {$$ = "\"@id\":" + $2 + ",";}
@@ -109,7 +109,7 @@ chapter_cnt	: sections {$$=$1;}
 		;
 
 sections	: section {$$ = $1;}
-		| section sections {$$ = $1 + $2;}
+		| sections section {$$ = $1 + $2;}
 
 section		: START_TAG SECTION section_att END_TAG {$$ = "{\"tag\":\"section\"" + $3 + "}";}
 		| START_TAG SECTION section_att CLOSE_TAG section_cnt OPEN_CLOSE SECTION CLOSE_TAG {$$ = "{\"tag\":\"section\"" + $3 + $5 +"}";}
@@ -168,7 +168,7 @@ authornotes_cnt : notes	{$$=$1;}
 		;
 
 notes		: note {$$ = $1;}
-		| note notes {$$ = $1 + $2;}
+		| notes note {$$ = $1 + $2;}
 		;
 
 note		: START_TAG NOTE END_TAG {$$ = "{\"tag\":\"note\"}";}
