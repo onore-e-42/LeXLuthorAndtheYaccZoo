@@ -1,0 +1,352 @@
+{
+	"tag":"book"
+	{
+		"tag":"dedication",
+		"content": [
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam 
+		dui nulla. Etiam fermentum lectus vel sapien facilisis rutrum."
+		]
+	}, 
+	{
+		"tag":"preface",
+		"content": [
+			"Suspendisse et felis lacus. Donec
+		magna sed lacus pellentesque hendrerit."
+		]
+	}, 
+	{
+		"tag":"part",
+		"@id":"p1",
+		{
+			"tag":"toc",
+			{
+				"tag":"item",
+				"@id":"p1_c1",
+				"content": [
+					"Capitolo 1"
+				]
+			}
+		}
+		{
+			"tag":"chapter",
+			"@id":"p1_c1",
+			"@title":"Capitolo 1",
+			{
+				"tag":"section",
+				"@id":"p1_c1_s1",
+				"@title":"Sezione 1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing 
+				magna sed lacus pellentesque hendrerit."
+				]
+			}
+			{
+				"tag":"section",
+				"@id":"p1_c1_s2",
+				"@title":"Sezione 2"
+			{
+				"tag":"section",
+				"@id":"p1_c1_s21",
+				"@title":"Sottosezione 2.1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing
+					Suspendisse tristique id quam ut cursus."
+				]
+				{
+					"tag":"table",
+					"@id":"t1",
+					"@caption":"Tabella 1"
+					{
+						"tag":"row"
+						{
+							"tag":"cell",
+							"content": [
+								"Colonna 1"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Colonna 2"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Colonna 3"
+							]
+						}
+					}
+					{
+						"tag":"row"
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 1"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 2"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 3"
+							]
+						}
+					}
+				},
+				"content": [
+					"Duis imperdiet consectetur dui. Sed sed laoreet
+					magna sed lacus pellentesque hendrerit."
+				]
+			}
+			{
+				"tag":"section",
+				"@id":"p1_c1_s22",
+				"@title":"Sottosezione 2.2",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius turpis vel tellus aliquam,
+					et hendrerit dui. Suspendisse potenti. Integer vitae nibh vel justo lobortis sollicitudin. Nulla cursus
+					magna sed lacus pellentesque hendrerit."
+				]
+			}
+			{
+				"tag":"section",
+				"@id":"p1_c1_s23",
+				"@title":"Sottosezione 2.3",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing
+					magna sed lacus pellentesque hendrerit."
+				]
+			}
+			}
+			{
+				"tag":"section",
+				"@id":"p1_c1_s3",
+				"@title":"Sezione 3",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing 
+				magna sed lacus pellentesque hendrerit."
+				]
+			}
+		}
+		{
+			"tag":"lot",
+			{
+				"tag":"item",
+				"@id":"t1",
+				"content": [
+					"Tabella 1"
+				]
+			}
+		}
+	}
+	{
+		"tag":"part",
+		"@id":"p2",
+		{
+			"tag":"toc",
+			{
+				"tag":"item",
+				"@id":"p2_c1",
+				"content": [
+					"Capitolo 1"
+				]
+			}
+		}
+		{
+			"tag":"chapter",
+			"@id":"p2_c1",
+			"@title":"Capitolo 1",
+			{
+				"tag":"section",
+				"@id":"p2_c1_s1",
+				"@title":"Sezione 1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing 
+				magna sed lacus pellentesque hendrerit."
+				]
+			}
+			{
+				"tag":"section",
+				"@id":"p2_c1_s2",
+				"@title":"Sezione 2",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius turpis vel tellus aliquam,
+				sit amet condimentum turpis eleifend."
+				]
+				{,
+					"tag":"figure",
+					"@id":"f1",
+					"@caption":""Figura 1","@path":"figura_1.jpg"
+					},
+				"content": [
+					"Vivamus lobortis lacus eu mi placerat malesuada. Nullam"
+				]
+			{
+				"tag":"section",
+				"@id":"p2_c1_s21",
+				"@title":"Sottosezione 2.1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing 
+					magna sed lacus pellentesque hendrerit."
+				]
+			{
+				"tag":"section",
+				"@id":"p2_c1_s21",
+				"@title":"Sottosezione 2.1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur 
+						magna sed lacus pellentesque hendrerit."
+				]
+			}
+			}
+			}
+			{
+				"tag":"section",
+				"@id":"p2_c1_s3",
+				"@title":"Sezione 3",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing nibh vel justo lobortis sollicitudin. Nulla cursus
+				magna sed lacus pellentesque hendrerit."
+				]
+			}
+		}
+		{
+			"tag":"chapter",
+			"@id":"p2_c2",
+			"@title":"Capitolo 2",
+			{
+				"tag":"section",
+				"@id":"p2_c2_s1",
+				"@title":"Sezione 1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing nibh vel justo lobortis sollicitudin. Nulla cursus
+				magna sed lacus pellentesque hendrerit."
+				]
+				{,
+					"tag":"figure",
+					"@id":"f3",
+					"@caption":""Figura 3","@path":"figura_3.jpg"
+					}
+				{
+					"tag":"table",
+					"@id":"2",
+					"@caption":"Tabella 2"
+					{
+						"tag":"row"
+						{
+							"tag":"cell",
+							"content": [
+								"Colonna 1"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Colonna 2"
+							]
+						}
+					}
+					{
+						"tag":"row"
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 1.1"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 2.1"
+							]
+						}
+					}
+					{
+						"tag":"row"
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 1.2"
+							]
+						}
+						{
+							"tag":"cell",
+							"content": [
+								"Cella 2.2"
+							]
+						}
+					}
+				}
+			}
+		}
+		{
+			"tag":"chapter",
+			"@id":"p1_c1",
+			"@title":"Capitolo 1",
+			{
+				"tag":"section",
+				"@id":"p1_c1_s1",
+				"@title":"Sezione 1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing ibh vel justo lobortis sollicitudin. Nulla cursus
+				magna sed lacus pellentesque hendrerit."
+				]
+			}
+		}
+		{
+			"tag":"chapter",
+			"@id":"p1_c1",
+			"@title":"Capitolo 1",
+			{
+				"tag":"section",
+				"@id":"p1_c1_s1",
+				"@title":"Sezione 1",
+				"content": [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing et 
+				magna sed lacus pellentesque hendrerit."
+				]
+			}
+		}
+		{
+			"tag":"lof",
+			{
+				"tag":"item",
+				"@id":"f1",
+				"content": [
+					"Figura 1"
+				]
+			}
+		}
+		{
+			"tag":"lot",
+			{
+				"tag":"item",
+				"@id":"t2",
+				"content": [
+					"Tabella 2"
+				]
+			}
+		}
+	}, 
+	{
+		"tag":"authornotes"
+		{
+			"tag":"note",
+			"content": [
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. rutrum."
+			]
+		}
+		{
+			"tag":"note",
+			"content": [
+				"Sed sed laoreet justo, et hendrerit dui. Suspendisse shendrerit."
+			]
+		}
+	}
+}

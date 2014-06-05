@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book SYSTEM "book.dtd">
+<book>
+	<dedication>
+ 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam 
+		dui nulla. Etiam fermentum lectus vel sapien facilisis rutrum.
+	</dedication>
+	<preface>	
+		Suspendisse et felis lacus. Donec
+		magna sed lacus pellentesque hendrerit.
+	</preface>
+	<part id="p1">
+		<toc>
+			<item id="p1_c1">Capitolo 1</item>
+			<item id="p1_c1_s1">Sezione 1</item>
+			<item id="p1_c1_s2">Sezione 2</item>
+			<item id="p1_c1_s21">Sottosezione 2.1</item>
+			<item id="p1_c1_s22">Sottosezione 2.2</item>
+			<item id="p1_c1_s23">Sottosezione 2.3</item>
+			<item id="p1_c1_s3">Sezione 3</item>
+		</toc>
+		<chapter id="p1_c1" title="Capitolo 1">
+			<section id="p1_c1_s1" title="Sezione 1">
+				Lorem ipsum dolor sit amet, consectetur adipiscing 
+				magna sed lacus pellentesque hendrerit.
+			</section>
+			<section id="p1_c1_s2" title="Sezione 2">
+				<section id="p1_c1_s21" title="Sottosezione 2.1">
+					Lorem ipsum dolor sit amet, consectetur adipiscing
+					Suspendisse tristique id quam ut cursus.
+					<table id="t1" caption="Tabella 1">
+						<row>
+							<cell>Colonna 1</cell>
+							<cell>Colonna 2</cell>
+							<cell>Colonna 3</cell>
+						</row>
+						<row>
+							<cell>Cella 1</cell>
+							<cell>Cella 2</cell>
+							<cell>Cella 3</cell>
+						</row>
+					</table>
+					Duis imperdiet consectetur dui. Sed sed laoreet
+					magna sed lacus pellentesque hendrerit.
+				</section>
+				<section id="p1_c1_s22" title="Sottosezione 2.2">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius turpis vel tellus aliquam,
+					et hendrerit dui. Suspendisse potenti. Integer vitae nibh vel justo lobortis sollicitudin. Nulla cursus
+					magna sed lacus pellentesque hendrerit.
+				</section>
+				<section id="p1_c1_s23" title="Sottosezione 2.3">
+					Lorem ipsum dolor sit amet, consectetur adipiscing
+					magna sed lacus pellentesque hendrerit.
+				</section>
+			</section>
+			<section id="p1_c1_s3" title="Sezione 3">
+				Lorem ipsum dolor sit amet, consectetur adipiscing 
+				magna sed lacus pellentesque hendrerit.
+			</section>
+		</chapter>
+		<lot>
+			<item id="t1">Tabella 1</item>
+		</lot>
+	</part>
+	<part id="p2">
+		<toc>
+			<item id="p2_c1">Capitolo 1</item>
+			<item id="p2_c1_s1">Sezione 1</item>
+			<item id="p2_c1_s2">Sezione 2</item>
+			<item id="p2_c1_s21">Sottosezione 2.1</item>
+			<item id="p1_c1_s3">Sezione 3</item>
+			<item id="p2_c2">Capitolo 2</item>
+			<item id="p2_c2_s1">Sezione 1</item>
+		</toc>
+		<chapter id="p2_c1" title="Capitolo 1">
+			<section id="p2_c1_s1" title="Sezione 1">
+				Lorem ipsum dolor sit amet, consectetur adipiscing 
+				magna sed lacus pellentesque hendrerit.
+			</section>
+			<section id="p2_c1_s2" title="Sezione 2">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius turpis vel tellus aliquam,
+				sit amet condimentum turpis eleifend.
+				<figure id="f1" caption="Figura 1" path="figura_1.jpg" />
+				Vivamus lobortis lacus eu mi placerat malesuada. Nullam
+				<section id="p2_c1_s21" title="Sottosezione 2.1">
+					Lorem ipsum dolor sit amet, consectetur adipiscing 
+					magna sed lacus pellentesque hendrerit.
+					<section id="p2_c1_s21" title="Sottosezione 2.1">
+						Lorem ipsum dolor sit amet, consectetur 
+						magna sed lacus pellentesque hendrerit.
+					</section>
+				</section>
+			</section>
+			<section id="p2_c1_s3" title="Sezione 3">
+				Lorem ipsum dolor sit amet, consectetur adipiscing nibh vel justo lobortis sollicitudin. Nulla cursus
+				magna sed lacus pellentesque hendrerit.
+			</section>
+		</chapter>
+		<chapter id="p2_c2" title="Capitolo 2">
+			<section id="p2_c2_s1" title="Sezione 1">
+				Lorem ipsum dolor sit amet, consectetur adipiscing nibh vel justo lobortis sollicitudin. Nulla cursus
+				magna sed lacus pellentesque hendrerit.
+				<figure id="f3" caption="Figura 3" path="figura_3.jpg" />
+				<table id="2" caption="Tabella 2">
+					<row>
+						<cell>Colonna 1</cell>
+						<cell>Colonna 2</cell>
+					</row>
+					<row>
+						<cell>Cella 1.1</cell>
+						<cell>Cella 2.1</cell>
+					</row>
+					<row>
+						<cell>Cella 1.2</cell>
+						<cell>Cella 2.2</cell>
+					</row>
+				</table>
+			</section>
+		</chapter>
+		<chapter id="p1_c1" title="Capitolo 1">
+			<section id="p1_c1_s1" title="Sezione 1">
+				Lorem ipsum dolor sit amet, consectetur adipiscing ibh vel justo lobortis sollicitudin. Nulla cursus
+				magna sed lacus pellentesque hendrerit.
+			</section>
+		</chapter>
+		<chapter id="p1_c1" title="Capitolo 1">
+			<section id="p1_c1_s1" title="Sezione 1">
+				Lorem ipsum dolor sit amet, consectetur adipiscing et 
+				magna sed lacus pellentesque hendrerit.
+			</section>
+		</chapter>
+		<lof>
+			<item id="f1">Figura 1</item>
+			<item id="f2">Figura 2</item>
+			<item id="f2">Figura 3</item>
+		</lof>
+		<lot>
+			<item id="t2">Tabella 2</item>
+		</lot>
+	</part>
+	<authornotes>
+ 		<note>
+ 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. rutrum.
+ 		</note>
+ 		<note>
+ 			Sed sed laoreet justo, et hendrerit dui. Suspendisse shendrerit.
+ 		</note>
+	</authornotes>
+</book>
