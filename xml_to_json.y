@@ -14,8 +14,8 @@
 output	 	: VERSION DOCTYPE book {System.out.print($3);}
 		| book {System.out.print($1);}
 		;
-		
-		
+
+
 book 		: START_TAG BOOK book_att END_TAG  {$$ = "{\"tag\":\"book\"," + $3 + "}";}
 		| START_TAG BOOK book_att CLOSE_TAG  book_cnt  OPEN_CLOSE BOOK CLOSE_TAG {$$ = "{\"tag\":\"book\"," + $3 + $5 +"}";}
 		;
@@ -24,8 +24,8 @@ book_att	: ATT_EDITION STRING	{$$ = "\"@edition\":" + $2 ;}
 		|			{$$ ="";}
 		;
 
-book_cnt	: dedication preface parts authornotes	{$$ = $1 + $2 + $3 + $4;}
-		| preface parts authornotes {$$ = $1 + $2 + $3;}
+book_cnt	: dedication preface parts authornotes	{$$ = $1 + ", " + $2 + ", " + $3 + ", " + $4;}
+		| preface parts authornotes {$$ = $1 + ", " + $2 +", "+ $3;}
 		;
 
 dedication	: START_TAG DEDICATION END_TAG {$$ = "{\"tag\":\"dedication\"}";}
@@ -48,7 +48,7 @@ parts		: part {$$ = $1;}
 		| parts part {$$ = $1 + $2;}
 		;
 
-part		: START_TAG PART part_att END_TAG  {$$ = "{\"tag\":\"part\"" + $3 + "}";}
+part		: START_TAG PART part_att END_TAG  {$$ = "{\"tag\":\"part\"," + $3 + "}";}
 		| START_TAG PART part_att CLOSE_TAG part_cnt OPEN_CLOSE PART CLOSE_TAG {$$ = "{\"tag\":\"part\","+ $3 + $5 + "}";}
 		;
 
@@ -84,8 +84,8 @@ lot_cnt		: items {$$=$1;}
 items		: item {$$ = $1;}
 		| items item {$$ = $1;}
 
-item		: START_TAG ITEM item_att END_TAG  {$$ = "{\"tag\":\"item\"" + $3 + "}";}
-		| START_TAG ITEM item_att CLOSE_TAG item_cnt OPEN_CLOSE ITEM CLOSE_TAG {$$ = "{\"tag\":\"item\"" + $3 + $5 + "}";}
+item		: START_TAG ITEM item_att END_TAG  {$$ = "{\"tag\":\"item\"," + $3 + "}";}
+		| START_TAG ITEM item_att CLOSE_TAG item_cnt OPEN_CLOSE ITEM CLOSE_TAG {$$ = "{\"tag\":\"item\"," + $3 + $5 + "}";}
 		;
 
 item_att	: ATT_ID STRING {$$ = "\"@id\":" + $2 + ",";}
@@ -99,7 +99,7 @@ chapters	: chapter {$$ = $1; }
 		| chapters chapter {$$ = $1 + $2; }
 		;
 
-chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG { $$ = "{\"tag\":\"chapter\"" + $3 + $5 +"}";}
+chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG { $$ = "{\"tag\":\"chapter\"," + $3 + $5 +"}";}
 		;
 
 chapter_att	: ATT_ID STRING {$$ = "\"@id\":" + $2 + ",";}
@@ -112,8 +112,8 @@ chapter_cnt	: sections {$$=$1;}
 sections	: section {$$ = $1;}
 		| sections section {$$ = $1 + $2;}
 
-section		: START_TAG SECTION section_att END_TAG {$$ = "{\"tag\":\"section\"" + $3 + "}";}
-		| START_TAG SECTION section_att CLOSE_TAG section_cnt OPEN_CLOSE SECTION CLOSE_TAG {$$ = "{\"tag\":\"section\"" + $3 + $5 +"}";}
+section		: START_TAG SECTION section_att END_TAG {$$ = "{\"tag\":\"section\"," + $3 + "}";}
+		| START_TAG SECTION section_att CLOSE_TAG section_cnt OPEN_CLOSE SECTION CLOSE_TAG {$$ = "{\"tag\":\"section\"," + $3 + $5 +"}";}
 		;
 
 section_att	: ATT_ID STRING {$$ = "\"@id\":" + $2 + ",";}
@@ -127,7 +127,7 @@ section_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"],";}
 		| section_cnt section_cnt {$$= $1 + $2;}
 		;
 
-figure		: START_TAG FIGURE figure_att END_TAG {$$ = "{\"tag\":\"figure\"" + $3 + "}";}
+figure		: START_TAG FIGURE figure_att END_TAG {$$ = "{\"tag\":\"figure\"," + $3 + "}";}
 		;
 
 figure_att	: ATT_ID STRING ATT_CAPTION STRING {$$ = "\"@id\":" + $2 + ",\"@caption\":" + $4;}
