@@ -11,7 +11,7 @@
      
 %%
 
-fruffole 	: VERSION DOCTYPE book {System.out.print($3);}
+output	 	: VERSION DOCTYPE book {System.out.print($3);}
 		| book {System.out.print($1);}
 		;
 		
@@ -57,6 +57,9 @@ part_att	: ATT_ID STRING	{$$ = "\"@id\":" + $2 + ",";}
 		;
 
 part_cnt 	: toc chapters lof lot	{$$ = $1 + $2 + $3 + $4;}
+		| toc chapters lot {$$ = $1 + $2 + $3;}
+		| toc chapters lof {$$ = $1 + $2 + $3;}
+		| toc chapters {$$ = $1 + $2;}
 		;
 
 
@@ -67,14 +70,12 @@ toc_cnt		: items	{$$=$1;}
 		;
 
 lof		: START_TAG LOF CLOSE_TAG lof_cnt OPEN_CLOSE LOF CLOSE_TAG {$$ = "{\"tag\":\"lof\"," + $4 + "}";}
-		| {$$ = "";}
 		;
 
 lof_cnt		: items {$$=$1;}
 		;
 
 lot		: START_TAG LOT CLOSE_TAG lot_cnt OPEN_CLOSE LOT CLOSE_TAG {$$ = "{\"tag\":\"lot\"," + $4 + "}";}
-		| {$$ = "";}
 		;
 
 lot_cnt		: items {$$=$1;}
