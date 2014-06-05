@@ -33,20 +33,20 @@ ATT_EDITION	= (" edition=")
 %%
 
 <YYINITIAL,OPENING_TAG,CLOSING_TAG>{NL}    {} 
-{VERSION}	{System.out.println("Debug: version");
+{VERSION}	{
 			return Parser.VERSION;}
 {DOCTYPE}	{return Parser.DOCTYPE;}
 
-{START_TAG}			{					System.out.println("Debug: <");
+{START_TAG}			{					
 					yybegin(OPENING_TAG);
 				 return Parser.START_TAG;}
 
 {TEXT}				{
-										System.out.println("Debug: text");
+										
 					yyparser.yylval = new ParserVal(yytext());
 				 return Parser.TEXT;}
 
-{OPEN_CLOSE}			{					System.out.println("Debug: </");
+{OPEN_CLOSE}			{					
 					yybegin(CLOSING_TAG);
 				 return Parser.OPEN_CLOSE;}
 
@@ -54,43 +54,43 @@ ATT_EDITION	= (" edition=")
 <OPENING_TAG>{
 		
 		"book"		{
-					System.out.println("Debug: book");
+					
 					return Parser.BOOK;}
-		"dedication"	{System.out.println("Debug: dedication");
+		"dedication"	{
 						return Parser.DEDICATION;}
-		"preface"	{					System.out.println("Debug: preface");
+		"preface"	{					
 					return Parser.PREFACE;}
-		"part"		{					System.out.println("Debug: part");
+		"part"		{					
 					return Parser.PART;}
-		"toc"		{					System.out.println("Debug: toc");
+		"toc"		{					
 					return Parser.TOC;}
-		"lof"		{System.out.println("Debug: lof");
+		"lof"		{
 					return Parser.LOF;}
-		"lot"		{System.out.println("Debug: lot");
+		"lot"		{
 					return Parser.LOT;}
-		"item"		{System.out.println("Debug: item");
+		"item"		{
 					return Parser.ITEM;}
-		"chapter"	{System.out.println("Debug: chapter");
+		"chapter"	{
 					return Parser.CHAPTER;}
-		"section"	{System.out.println("Debug: section");
+		"section"	{
 					return Parser.SECTION;}
-		"figure"	{System.out.println("Debug: figure");
+		"figure"	{
 					return Parser.FIGURE;}
-		"table"		{System.out.println("Debug: table");
+		"table"		{
 					return Parser.TABLE;}
-		"row"		{System.out.println("Debug: row");
+		"row"		{
 					return Parser.ROW;}
-		"cell"		{System.out.println("Debug: cell");
+		"cell"		{
 					return Parser.CELL;}
-		"authornotes"	{System.out.println("Debug: authornotes");
+		"authornotes"	{
 					return Parser.AUTHORNOTES;}
-		"note"		{System.out.println("Debug: note");
+		"note"		{
 					return Parser.NOTE;}
 
-		{END_TAG}	{					System.out.println("Debug: />");
+		{END_TAG}	{					
 					yybegin(YYINITIAL);
 				 return Parser.END_TAG;}
-		{CLOSE_TAG}	{					System.out.println("Debug: >");
+		{CLOSE_TAG}	{					
 					yybegin(YYINITIAL);
 				 return Parser.CLOSE_TAG;}
 	
@@ -100,7 +100,7 @@ ATT_EDITION	= (" edition=")
 		{ATT_CAPTION}	{return Parser.ATT_CAPTION;}
 		{ATT_PATH}	{return Parser.ATT_PATH;}
 
-		{STRING}	{System.out.println("Debug: string");
+		{STRING}	{
 					yyparser.yylval = new ParserVal(yytext());
 				 return Parser.STRING;}	
 
@@ -130,8 +130,6 @@ ATT_EDITION	= (" edition=")
 	}
 
 
-/* whitespace */
-[ \t]+ { }
 
 /* error fallback */
 [^]    { System.out.println("Error: unexpected character '"+yytext()+"'"); return -1; }

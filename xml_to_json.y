@@ -28,8 +28,8 @@ book_cnt	: dedication preface parts authornotes	{$$ = $1 + $2 + $3 + $4;}
 		| preface parts authornotes {$$ = $1 + $2 + $3;}
 		;
 
-dedication	: START_TAG DEDICATION END_TAG {System.out.println("dedication1");$$ = "{\"tag\":\"dedication\"}";}
-		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{System.out.println("dedication1");$$ = "{\"tag\":\"dedication\"," + $4 + "}";}
+dedication	: START_TAG DEDICATION END_TAG {$$ = "{\"tag\":\"dedication\"}";}
+		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{$$ = "{\"tag\":\"dedication\"," + $4 + "}";}
 		;
 
 dedication_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"]";}
@@ -95,11 +95,11 @@ item_cnt	: TEXT {$$ = "\"content\": [\"" + $1 + "\"],";}
 		|	{$$="";}
 		;
 
-chapters	: chapter {$$ = $1; System.out.println("SINGOLO");}
-		| chapters chapter {$$ = $1 + $2; System.out.println("RICORSIVO");}
+chapters	: chapter {$$ = $1; }
+		| chapters chapter {$$ = $1 + $2; }
 		;
 
-chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG {System.out.println("AAA"); $$ = "{\"tag\":\"chapter\"" + $3 + $5 +"}";}
+chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG { $$ = "{\"tag\":\"chapter\"" + $3 + $5 +"}";}
 		;
 
 chapter_att	: ATT_ID STRING {$$ = "\"@id\":" + $2 + ",";}
