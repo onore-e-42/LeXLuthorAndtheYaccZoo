@@ -99,7 +99,7 @@ chapters	: chapter {$$ = $1; }
 		| chapters chapter {$$ = $1 + $2; }
 		;
 
-chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG { $$ = "\n\t\t{\n\t\t\t\"tag\":\"chapter\"" + $3 + $5 +"\n\t\t}";}
+chapter		: START_TAG CHAPTER chapter_att CLOSE_TAG chapter_cnt OPEN_CLOSE CHAPTER CLOSE_TAG { $$ = "\n\t\t{\n\t\t\t\"tag\":\"chapter\"" + $3 + ",\n\t\t\t\"content\": [" + $5 + "\n\t\t\t]" +"\n\t\t}";}
 		;
 
 chapter_att	: ATT_ID STRING {$$ = ",\n\t\t\t\"@id\":" + $2 + ",";}
@@ -113,14 +113,14 @@ sections	: section {$$ = $1;}
 		| sections section {$$ = $1 + $2;}
 
 section		: START_TAG SECTION section_att END_TAG {$$ = "\n\t\t\t{\n\t\t\t\t\"tag\":\"section\"" + $3 + "\n\t\t\t}";}
-		| START_TAG SECTION section_att CLOSE_TAG section_cnt OPEN_CLOSE SECTION CLOSE_TAG {$$ = "\n\t\t\t{\n\t\t\t\t\"tag\":\"section\"" + $3 + $5 +"\n\t\t\t}";}
+		| START_TAG SECTION section_att CLOSE_TAG section_cnt OPEN_CLOSE SECTION CLOSE_TAG {$$ = "\n\t\t\t{\n\t\t\t\t\"tag\":\"section\"" + $3 + ",\n\t\t\t\t\"content\": [" + $5 + "\n\t\t\t\t]" + "\n\t\t\t}";}
 		;
 
 section_att	: ATT_ID STRING {$$ = ",\n\t\t\t\t\"@id\":" + $2;}
 		| ATT_ID STRING ATT_TITLE STRING {$$ = ",\n\t\t\t\t\"@id\":" + $2 + ",\n\t\t\t\t\"@title\":" + $4;}
 		;
 
-section_cnt	: TEXT {$$ = ",\n\t\t\t\t\"content\": [\n\t\t\t\t\t\"" + $1.trim() + "\"\n\t\t\t\t]";}
+section_cnt	: TEXT {$$ = "\n\t\t\t\t\t\"" + $1.trim();}
 		| sections {$$=$1;}
 		| figure {$$=$1;}
 		| table {$$=$1;}
