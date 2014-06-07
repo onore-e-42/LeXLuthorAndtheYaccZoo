@@ -17,7 +17,7 @@ output	 	: VERSION DOCTYPE book {System.out.print($3);}
 
 
 book 		: START_TAG BOOK book_att END_TAG  {$$ = "{\n\t\"tag\":\"book\"" + $3 + "\n}";}
-		| START_TAG BOOK book_att CLOSE_TAG  book_cnt  OPEN_CLOSE BOOK CLOSE_TAG {$$ = "{\n\t\"tag\":\"book\"" + $3 + $5 +"\n}";}
+		| START_TAG BOOK book_att CLOSE_TAG  book_cnt  OPEN_CLOSE BOOK CLOSE_TAG {$$ = "{\n\t\"tag\":\"book\"" + $3 + ",\n\t\"content\": [" + $5 + "\n\t]\n}";}
 		;
 
 book_att	: ATT_EDITION STRING	{$$ = ",\n\t\"@edition\":" + $2 ;}
@@ -29,18 +29,18 @@ book_cnt	: dedication preface parts authornotes	{$$ = $1 + ", " + $2 + ", " + $3
 		;
 
 dedication	: START_TAG DEDICATION END_TAG {$$ = "\n\t{\n\t\t\"tag\":\"dedication\"\n\t}";}
-		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{$$ = "\n\t{\n\t\t\"tag\":\"dedication\"" + $4 + "\n\t}";}
+		| START_TAG DEDICATION CLOSE_TAG dedication_cnt OPEN_CLOSE DEDICATION CLOSE_TAG	{$$ = "\n\t{\n\t\t\"tag\":\"dedication\"" +  ",\n\t\t\"content\": [" + $4 + "\n\t\t]\n\t}";}
 		;
 
-dedication_cnt	: TEXT {$$ = ",\n\t\t\"content\": [\n\t\t\t\"" + $1.trim() + "\"\n\t\t]";}
+dedication_cnt	: TEXT {$$ = "\n\t\t\t\"" + $1.trim() + "\"";}
 		| {$$ = "";}
 		;
 
 preface		: START_TAG PREFACE END_TAG {$$ = "\n\t{\n\t\t\"tag\":\"preface\"\n\t}";}
-		| START_TAG PREFACE CLOSE_TAG preface_cnt OPEN_CLOSE PREFACE CLOSE_TAG {$$ = "\n\t{\n\t\t\"tag\":\"preface\"" + $4 + "\n\t}";}
+		| START_TAG PREFACE CLOSE_TAG preface_cnt OPEN_CLOSE PREFACE CLOSE_TAG {$$ = "\n\t{\n\t\t\"tag\":\"preface\"" + ",\n\t\t\"content\": [" + $4 + "\n\t\t]\n\t}";}
 		;
 
-preface_cnt	: TEXT {$$ = ",\n\t\t\"content\": [\n\t\t\t\"" + $1.trim() + "\"\n\t\t]";}
+preface_cnt	: TEXT {$$ = "\n\t\t\t\"" + $1.trim()+ "\"";}
 		| {$$ = "";}
 		;
 
@@ -49,7 +49,7 @@ parts		: part {$$ = $1;}
 		;
 
 part		: START_TAG PART part_att END_TAG  {$$ = "\n\t{\n\t\t\"tag\":\"part\"" + $3 + "\n\t}";}
-		| START_TAG PART part_att CLOSE_TAG part_cnt OPEN_CLOSE PART CLOSE_TAG {$$ = "\n\t{\n\t\t\"tag\":\"part\""+ $3 + $5 + "\n\t}";}
+		| START_TAG PART part_att CLOSE_TAG part_cnt OPEN_CLOSE PART CLOSE_TAG {$$ = "\n\t{\n\t\t\"tag\":\"part\""+ $3 + ",\n\t\t\t\"content\": [" + $5 + "\n\t\t\t]\n\t}";}
 		;
 
 part_att	: ATT_ID STRING	{$$ = ",\n\t\t\"@id\":" + $2 + ",";}
@@ -63,19 +63,19 @@ part_cnt 	: toc chapters lof lot	{$$ = $1 + $2 + $3 + $4;}
 		;
 
 
-toc		: START_TAG TOC CLOSE_TAG toc_cnt OPEN_CLOSE TOC CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"toc\"," + $4 + "\n\t\t}";}
+toc		: START_TAG TOC CLOSE_TAG toc_cnt OPEN_CLOSE TOC CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"toc\",\n\t\t\t\"content\": [" + $4 + "\n\t\t\t]\n\t\t}";}
 		;
 
 toc_cnt		: items	{$$=$1;}
 		;
 
-lof		: START_TAG LOF CLOSE_TAG lof_cnt OPEN_CLOSE LOF CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"lof\"," + $4 + "\n\t\t}";}
+lof		: START_TAG LOF CLOSE_TAG lof_cnt OPEN_CLOSE LOF CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"lof\",\n\t\t\t\"content\": [" + $4 + "\n\t\t\t]\n\t\t}";}
 		;
 
 lof_cnt		: items {$$=$1;}
 		;
 
-lot		: START_TAG LOT CLOSE_TAG lot_cnt OPEN_CLOSE LOT CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"lot\"," + $4 + "\n\t\t}";}
+lot		: START_TAG LOT CLOSE_TAG lot_cnt OPEN_CLOSE LOT CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"lot\",\n\t\t\t\"content\": [" + $4 + "\n\t\t\t]\n\t\t}";}
 		;
 
 lot_cnt		: items {$$=$1;}
@@ -85,13 +85,13 @@ items		: item {$$ = $1;}
 		| items item {$$ = $1;}
 
 item		: START_TAG ITEM item_att END_TAG  {$$ = "\n\t\t\t{\n\t\t\t\t\"tag\":\"item\"" + $3 + "\n\t\t\t}";}
-		| START_TAG ITEM item_att CLOSE_TAG item_cnt OPEN_CLOSE ITEM CLOSE_TAG {$$ = "\n\t\t\t{\n\t\t\t\t\"tag\":\"item\"" + $3 + $5 + "\n\t\t\t}";}
+		| START_TAG ITEM item_att CLOSE_TAG item_cnt OPEN_CLOSE ITEM CLOSE_TAG {$$ = "\n\t\t\t{\n\t\t\t\t\"tag\":\"item\"" + $3 + ",\n\t\t\t\t\"content\": [" + $5 + "\n\t\t\t\t]\n\t\t\t}";}
 		;
 
 item_att	: ATT_ID STRING {$$ = ",\n\t\t\t\t\"@id\":" + $2;}
 		;
 
-item_cnt	:  TEXT {$$ = ",\n\t\t\t\t\"content\": [\n\t\t\t\t\t\"" + $1.trim() + "\"\n\t\t\t\t]";}
+item_cnt	:  TEXT {$$ = "\n\t\t\t\t\t\"" + $1.trim() + "\"";}
 		|	{$$="";}
 		;
 
@@ -120,7 +120,7 @@ section_att	: ATT_ID STRING {$$ = ",\n\t\t\t\t\"@id\":" + $2;}
 		| ATT_ID STRING ATT_TITLE STRING {$$ = ",\n\t\t\t\t\"@id\":" + $2 + ",\n\t\t\t\t\"@title\":" + $4;}
 		;
 
-section_cnt	: TEXT {$$ = "\n\t\t\t\t\t\"" + $1.trim();}
+section_cnt	: TEXT {$$ = "\n\t\t\t\t\t\"" + $1.trim()+ "\"";}
 		| sections {$$=$1;}
 		| figure {$$=$1;}
 		| table {$$=$1;}
@@ -152,10 +152,10 @@ row_cnt		: cell	{$$=$1;}
 		;
 
 cell		: START_TAG CELL END_TAG {$$ = "\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"tag\":\"cell\"\n\t\t\t\t\t\t}";}
-		| START_TAG CELL CLOSE_TAG cell_cnt OPEN_CLOSE CELL CLOSE_TAG  {$$ = "\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"tag\":\"cell\"" + $4 + "\n\t\t\t\t\t\t}";}
+		| START_TAG CELL CLOSE_TAG cell_cnt OPEN_CLOSE CELL CLOSE_TAG  {$$ = "\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"tag\":\"cell\"" +",\n\t\t\t\t\t\t\t\"content\": [" + $4 + "\n\t\t\t\t\t\t\t]" + "\n\t\t\t\t\t\t}";}
 		;
 
-cell_cnt	: TEXT {$$ = ",\n\t\t\t\t\t\t\t\"content\": [\n\t\t\t\t\t\t\t\t\"" + $1.trim() + "\"\n\t\t\t\t\t\t\t]";}
+cell_cnt	: TEXT {$$ = "\n\t\t\t\t\t\t\t\t\"" + $1.trim() + "\"";}
 		| 	{$$="";}
 		;
 
@@ -173,10 +173,10 @@ notes		: note {$$ = $1;}
 		;
 
 note		: START_TAG NOTE END_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"note\"\n\t\t}";}
-		| START_TAG NOTE CLOSE_TAG note_cnt OPEN_CLOSE NOTE CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"note\"" + $4 + "\n\t\t}";}
+		| START_TAG NOTE CLOSE_TAG note_cnt OPEN_CLOSE NOTE CLOSE_TAG {$$ = "\n\t\t{\n\t\t\t\"tag\":\"note\"" + ",\n\t\t\t\"content\": [" + $4 + "\n\t\t\t]" + "\n\t\t}";}
 		;
 
-note_cnt	: TEXT {$$ = ",\n\t\t\t\"content\": [\n\t\t\t\t\"" + $1.trim() + "\"\n\t\t\t]";}
+note_cnt	: TEXT {$$ = "\n\t\t\t\t\"" + $1.trim() + "\"";}
 		|	{$$="";}
 		;
 %%

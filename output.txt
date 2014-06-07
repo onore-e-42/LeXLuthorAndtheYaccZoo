@@ -1,5 +1,6 @@
 {
-	"tag":"book"
+	"tag":"book",
+	"content": [
 	{
 		"tag":"dedication",
 		"content": [
@@ -16,9 +17,11 @@
 	}, 
 	{
 		"tag":"part",
-		"@id":"p1",
+		"@id":"p1",,
+			"content": [
 		{
 			"tag":"toc",
+			"content": [
 			{
 				"tag":"item",
 				"@id":"p1_c1",
@@ -26,6 +29,7 @@
 					"Capitolo 1"
 				]
 			}
+			]
 		}
 		{
 			"tag":"chapter",
@@ -38,7 +42,7 @@
 				"@title":"Sezione 1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing 
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				]
 			}
 			{
@@ -52,7 +56,7 @@
 				"@title":"Sottosezione 2.1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing
-					Suspendisse tristique id quam ut cursus.
+					Suspendisse tristique id quam ut cursus."
 				{
 					"tag":"table",
 					"@id":"t1",
@@ -101,7 +105,7 @@
 					}
 				}
 					"Duis imperdiet consectetur dui. Sed sed laoreet
-					magna sed lacus pellentesque hendrerit.
+					magna sed lacus pellentesque hendrerit."
 				]
 			}
 			{
@@ -111,7 +115,7 @@
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius turpis vel tellus aliquam,
 					et hendrerit dui. Suspendisse potenti. Integer vitae nibh vel justo lobortis sollicitudin. Nulla cursus
-					magna sed lacus pellentesque hendrerit.
+					magna sed lacus pellentesque hendrerit."
 				]
 			}
 			{
@@ -120,7 +124,7 @@
 				"@title":"Sottosezione 2.3",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing
-					magna sed lacus pellentesque hendrerit.
+					magna sed lacus pellentesque hendrerit."
 				]
 			}
 				]
@@ -131,13 +135,14 @@
 				"@title":"Sezione 3",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing 
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				]
 			}
 			]
 		}
 		{
 			"tag":"lot",
+			"content": [
 			{
 				"tag":"item",
 				"@id":"t1",
@@ -145,13 +150,17 @@
 					"Tabella 1"
 				]
 			}
+			]
 		}
+			]
 	}
 	{
 		"tag":"part",
-		"@id":"p2",
+		"@id":"p2",,
+			"content": [
 		{
 			"tag":"toc",
+			"content": [
 			{
 				"tag":"item",
 				"@id":"p2_c1",
@@ -159,6 +168,7 @@
 					"Capitolo 1"
 				]
 			}
+			]
 		}
 		{
 			"tag":"chapter",
@@ -171,7 +181,7 @@
 				"@title":"Sezione 1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing 
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				]
 			}
 			{
@@ -180,27 +190,27 @@
 				"@title":"Sezione 2",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius turpis vel tellus aliquam,
-				sit amet condimentum turpis eleifend.
+				sit amet condimentum turpis eleifend."
 				{,
 					"tag":"figure",
 					"@id":"f1",
 					"@caption":""Figura 1","@path":"figura_1.jpg"
 					}
-					"Vivamus lobortis lacus eu mi placerat malesuada. Nullam
+					"Vivamus lobortis lacus eu mi placerat malesuada. Nullam"
 			{
 				"tag":"section",
 				"@id":"p2_c1_s21",
 				"@title":"Sottosezione 2.1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing 
-					magna sed lacus pellentesque hendrerit.
+					magna sed lacus pellentesque hendrerit."
 			{
 				"tag":"section",
 				"@id":"p2_c1_s21",
 				"@title":"Sottosezione 2.1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur 
-						magna sed lacus pellentesque hendrerit.
+						magna sed lacus pellentesque hendrerit."
 				]
 			}
 				]
@@ -213,7 +223,7 @@
 				"@title":"Sezione 3",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing nibh vel justo lobortis sollicitudin. Nulla cursus
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				]
 			}
 			]
@@ -229,7 +239,7 @@
 				"@title":"Sezione 1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing nibh vel justo lobortis sollicitudin. Nulla cursus
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				{,
 					"tag":"figure",
 					"@id":"f3",
@@ -300,7 +310,7 @@
 				"@title":"Sezione 1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing ibh vel justo lobortis sollicitudin. Nulla cursus
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				]
 			}
 			]
@@ -316,13 +326,14 @@
 				"@title":"Sezione 1",
 				"content": [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing et 
-				magna sed lacus pellentesque hendrerit.
+				magna sed lacus pellentesque hendrerit."
 				]
 			}
 			]
 		}
 		{
 			"tag":"lof",
+			"content": [
 			{
 				"tag":"item",
 				"@id":"f1",
@@ -330,9 +341,11 @@
 					"Figura 1"
 				]
 			}
+			]
 		}
 		{
 			"tag":"lot",
+			"content": [
 			{
 				"tag":"item",
 				"@id":"t2",
@@ -340,7 +353,9 @@
 					"Tabella 2"
 				]
 			}
+			]
 		}
+			]
 	}, 
 	{
 		"tag":"authornotes"
@@ -357,4 +372,5 @@
 			]
 		}
 	}
+	]
 }
